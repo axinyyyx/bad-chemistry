@@ -120,14 +120,16 @@ const elements = [
 ];
 
 const levelConfigs = [
-    { name: "Beginner", elements: elements.slice(0, 20), targetScore: 20, decoys: 0, showAtomicNumber: true },
-    { name: "Metals & Non-Metals", elements: elements.filter(e => ["alkali-metal", "alkaline-earth-metal", "post-transition-metal", "metalloid", "non-metal"].includes(e.group)).slice(0, 20), targetScore: 20, decoys: 2, showAtomicNumber: true },
-    { name: "Transition Metals", elements: elements.filter(e => e.group === "transition-metal").slice(0, 20), targetScore: 20, decoys: 3, showAtomicNumber: false },
-    { name: "Rare Earths & Noble Gases", elements: elements.filter(e => ["lanthanide", "actinide", "noble-gas"].includes(e.group)), targetScore: 23, decoys: 4, showAtomicNumber: false },
-    { name: "Master Infinity", elements: elements, targetScore: 30, decoys: 5, showAtomicNumber: false }
+    { name: "Beginner", elements: elements.slice(0, 20), targetScore: 20, decoys: 0, showAtomicNumber: true, subLevels: 5 },
+    { name: "Explorer", elements: elements.filter(e => ["alkali-metal", "alkaline-earth-metal", "post-transition-metal", "metalloid", "non-metal"].includes(e.group)).slice(0, 20), targetScore: 20, decoys: 2, showAtomicNumber: true, subLevels: 5 },
+    { name: "Pro", elements: elements.filter(e => e.group === "transition-metal").slice(0, 20), targetScore: 20, decoys: 3, showAtomicNumber: false, subLevels: 5 },
+    { name: "Mastermind", elements: elements.filter(e => ["lanthanide", "actinide", "noble-gas"].includes(e.group)), targetScore: 23, decoys: 4, showAtomicNumber: false, subLevels: 5 },
+    { name: "Guru", elements: elements.filter(e => ["lanthanide", "actinide"].includes(e.group)), targetScore: 30, decoys: 5, showAtomicNumber: false, subLevels: 5 },
+    { name: "Infinity", elements: elements, targetScore: 30, decoys: 5, showAtomicNumber: false, subLevels: Infinity }
 ];
 
 let currentLevel = 1;
+let currentSubLevel = 1;
 let lives = 3;
 let score = 0;
 let combo = 0;
@@ -135,38 +137,123 @@ let hintUsed = false;
 let selectedCard = null;
 let timer;
 let timeLeft = 120; // 2 minutes
+let accuracyData = JSON.parse(localStorage.getItem('periodicGameAccuracy')) || {};
+let unlockedLevels = JSON.parse(localStorage.getItem('periodicGameUnlockedLevels')) || [1];
+let soundEnabled = localStorage.getItem('periodicGameSound') !== 'false';
+let activeCards = [];
 
 const correctSound = new Audio('static/sounds/correct.mp3');
 const wrongSound = new Audio('static/sounds/wrong.mp3');
 const victorySound = new Audio('static/sounds/victory.mp3');
 
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    return parts.length === 2 ? parts.pop().split(';').shift() : null;
+}
+
+function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+}
+
 function initGame() {
-    document.getElementById('instructions-modal').classList.remove('hidden');
+    if (!getCookie('periodicGameVisited')) {
+        document.getElementById('instructions-modal').classList.remove('hidden');
+        setCookie('periodicGameVisited', 'true', 365);
+    }
     document.getElementById('start-game-btn').addEventListener('click', () => {
         document.getElementById('instructions-modal').classList.add('hidden');
-        startLevel(currentLevel);
+        startLevel(currentLevel, currentSubLevel);
+    });
+    setupSettings();
+    updateLevelSelect();
+    startLevel(currentLevel, currentSubLevel);
+}
+
+function setupSettings() {
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsModal = document.getElementById('settings-modal');
+    const closeSettingsBtn = document.getElementById('close-settings-btn');
+    const showInstructionsBtn = document.getElementById('show-instructions-btn');
+    const soundToggle = document.getElementById('sound-toggle');
+    const resetLevelsBtn = document.getElementById('reset-levels-btn');
+    const levelSelect = document.getElementById('level-select');
+
+    soundToggle.checked = soundEnabled;
+    soundToggle.addEventListener('change', () => {
+        soundEnabled = soundToggle.checked;
+        localStorage.setItem('periodicGameSound', soundEnabled);
+    });
+
+    settingsBtn.addEventListener('click', () => {
+        settingsModal.classList.remove('hidden');
+    });
+
+    closeSettingsBtn.addEventListener('click', () => {
+        settingsModal.classList.add('hidden');
+    });
+
+    showInstructionsBtn.addEventListener('click', () => {
+        settingsModal.classList.add('hidden');
+        document.getElementById('instructions-modal').classList.remove('hidden');
+    });
+
+    resetLevelsBtn.addEventListener('click', () => {
+        accuracyData = {};
+        unlockedLevels = [1];
+        localStorage.setItem('periodicGameAccuracy', JSON.stringify(accuracyData));
+        localStorage.setItem('periodicGameUnlockedLevels', JSON.stringify(unlockedLevels));
+        updateLevelSelect();
+        settingsModal.classList.add('hidden');
+        currentLevel = 1;
+        currentSubLevel = 1;
+        startLevel(1, 1);
+    });
+
+    levelSelect.addEventListener('change', () => {
+        currentLevel = parseInt(levelSelect.value);
+        currentSubLevel = 1;
+        settingsModal.classList.add('hidden');
+        startLevel(currentLevel, currentSubLevel);
     });
 }
 
-function startLevel(level) {
+function updateLevelSelect() {
+    const levelSelect = document.getElementById('level-select');
+    levelSelect.innerHTML = '';
+    unlockedLevels.forEach(level => {
+        const option = document.createElement('option');
+        option.value = level;
+        option.textContent = `Level ${level}: ${levelConfigs[level - 1].name}`;
+        levelSelect.appendChild(option);
+    });
+}
+
+function startLevel(level, subLevel) {
     lives = 3;
     score = 0;
     combo = 0;
     hintUsed = false;
     timeLeft = 120;
     selectedCard = null;
+    activeCards = [];
     updateHUD();
-    setupGameBoard(level);
+    setupGameBoard(level, subLevel);
     startTimer();
 }
 
-function setupGameBoard(level) {
+function setupGameBoard(level, subLevel) {
     const config = levelConfigs[level - 1];
     let levelElements = config.elements.slice(0, config.targetScore);
+    if (level === 6) {
+        levelElements = elements.sort(() => Math.random() - 0.5).slice(0, config.targetScore); // Random for Infinity
+    }
     const periodicTable = document.getElementById('periodic-table');
     const elementCards = document.getElementById('element-cards');
     periodicTable.innerHTML = '';
     elementCards.innerHTML = '';
+    activeCards = [];
 
     // Add decoy cards
     const decoyElements = elements.filter(e => !levelElements.includes(e));
@@ -181,7 +268,7 @@ function setupGameBoard(level) {
     const gridCols = Math.min(levelElements.length, 5);
     document.getElementById('periodic-table').style.gridTemplateColumns = `repeat(${gridCols}, 60px)`;
 
-    levelElements.forEach(element => {
+    levelElements.forEach((element, index) => {
         if (!element.isDecoy) {
             const slot = document.createElement('div');
             slot.classList.add('slot');
@@ -194,13 +281,28 @@ function setupGameBoard(level) {
         const card = document.createElement('div');
         card.classList.add('card');
         card.dataset.atomicNumber = element.atomicNumber;
+        card.dataset.index = index;
         card.textContent = element.symbol; // Only symbols
         card.addEventListener('click', () => handleCardClick(card));
-        elementCards.appendChild(card);
+        activeCards.push({ index, element, card });
     });
+
+    renderCards();
 
     document.getElementById('level-name').textContent = config.name;
     document.getElementById('target-score').textContent = config.targetScore;
+    document.getElementById('sub-level').textContent = subLevel;
+    updateAccuracyDisplay();
+}
+
+function renderCards() {
+    const elementCards = document.getElementById('element-cards');
+    elementCards.innerHTML = '';
+    activeCards.forEach(({ card }) => {
+        if (!card.classList.contains('used')) {
+            elementCards.appendChild(card);
+        }
+    });
 }
 
 function handleCardClick(card) {
@@ -226,7 +328,9 @@ function handleSlotClick(slot) {
             score += 2;
             combo = 0;
         }
-        correctSound.play();
+        if (soundEnabled) correctSound.play();
+        slideCards();
+        updateAccuracy(true);
         updateHUD();
         checkWin();
     } else {
@@ -234,11 +338,36 @@ function handleSlotClick(slot) {
         setTimeout(() => slot.classList.remove('wrong'), 300);
         lives--;
         combo = 0;
-        wrongSound.play();
+        if (soundEnabled) wrongSound.play();
+        updateAccuracy(false);
         updateHUD();
         if (lives === 0) gameOver();
     }
     selectedCard = null;
+}
+
+function slideCards() {
+    const index = parseInt(selectedCard.dataset.index);
+    activeCards = activeCards.filter(card => card.index !== index);
+    renderCards();
+}
+
+function updateAccuracy(success) {
+    const levelKey = `level${currentLevel}`;
+    if (!accuracyData[levelKey]) {
+        accuracyData[levelKey] = { correct: 0, total: 0 };
+    }
+    accuracyData[levelKey].total++;
+    if (success) accuracyData[levelKey].correct++;
+    localStorage.setItem('periodicGameAccuracy', JSON.stringify(accuracyData));
+    updateAccuracyDisplay();
+}
+
+function updateAccuracyDisplay() {
+    const levelKey = `level${currentLevel}`;
+    const data = accuracyData[levelKey] || { correct: 0, total: 0 };
+    const accuracy = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+    document.getElementById('accuracy').textContent = `${accuracy}%`;
 }
 
 function updateHUD() {
@@ -251,7 +380,7 @@ function updateHUD() {
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${ mins }:${ secs < 10 ? '0' : '' }${ secs }`;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
 function startTimer() {
@@ -267,29 +396,40 @@ function checkWin() {
     const config = levelConfigs[currentLevel - 1];
     if (score >= config.targetScore) {
         clearInterval(timer);
-        victorySound.play();
-        const modal = document.getElementById('victory-modal');
-        document.getElementById('victory-level').textContent = currentLevel;
-        document.getElementById('victory-title').textContent = getTitle(currentLevel);
-        modal.classList.remove('hidden');
-        document.getElementById('next-level-btn').addEventListener('click', () => {
-            modal.classList.add('hidden');
-            currentLevel++;
-            if (currentLevel <= levelConfigs.length) {
-                startLevel(currentLevel);
-            } else {
-                alert('Congratulations! You’ve mastered the Periodic Table!');
-                currentLevel = 1;
-                startLevel(1);
-            }
-        }, { once: true });
+        if (soundEnabled) victorySound.play();
+        const levelKey = `level${currentLevel}`;
+        const accuracy = accuracyData[levelKey] ? Math.round((accuracyData[levelKey].correct / accuracyData[levelKey].total) * 100) : 0;
+        if (accuracy >= 100 || currentSubLevel >= config.subLevels || currentLevel === 6) {
+            const modal = document.getElementById('victory-modal');
+            document.getElementById('victory-level').textContent = currentLevel;
+            document.getElementById('victory-title').textContent = getTitle(currentLevel);
+            modal.classList.remove('hidden');
+            document.getElementById('next-level-btn').addEventListener('click', () => {
+                modal.classList.add('hidden');
+                if (currentLevel < 6 && accuracy >= 100) {
+                    if (!unlockedLevels.includes(currentLevel + 1)) {
+                        unlockedLevels.push(currentLevel + 1);
+                        localStorage.setItem('periodicGameUnlockedLevels', JSON.stringify(unlockedLevels));
+                        updateLevelSelect();
+                    }
+                    currentLevel++;
+                    currentSubLevel = 1;
+                } else {
+                    currentSubLevel++;
+                }
+                startLevel(currentLevel, currentSubLevel);
+            }, { once: true });
+        } else {
+            currentSubLevel++;
+            startLevel(currentLevel, currentSubLevel);
+        }
     }
 }
 
 function gameOver() {
     clearInterval(timer);
     alert('Game Over! Try again.');
-    startLevel(currentLevel);
+    startLevel(currentLevel, currentSubLevel);
 }
 
 function getTitle(level) {
@@ -297,6 +437,7 @@ function getTitle(level) {
     if (level === 2) return 'Element Explorer';
     if (level === 3) return 'Transition Titan';
     if (level === 4) return 'Rare Element Ranger';
+    if (level === 5) return 'Guru';
     return 'Periodic Master';
 }
 

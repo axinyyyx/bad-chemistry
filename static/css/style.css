@@ -135,9 +135,9 @@ header h1 {
 }
 
 #element-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(5, 60px);
+    gap: 4px; /* Reduced gap */
     justify-content: center;
 }
 
@@ -154,7 +154,7 @@ header h1 {
     cursor: pointer;
     background: linear-gradient(45deg, #576574, #778ca3);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -168,7 +168,8 @@ header h1 {
 }
 
 .card.used {
-    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
 }
 
 @keyframes bounce {
@@ -235,6 +236,33 @@ button:hover {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 }
 
+#level-select {
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #ecf0f1;
+    border-radius: 12px;
+    background: linear-gradient(45deg, #576574, #778ca3);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+#level-select:hover {
+    background: linear-gradient(45deg, #6ab04c, #badc58);
+    transform: scale(1.05);
+}
+
+#level-select:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+}
+
 @media (max-width: 600px) {
     header h1 {
         font-size: 1.4rem;
@@ -247,6 +275,10 @@ button:hover {
         height: 50px;
         font-size: 14px;
     }
+    #element-cards {
+        grid-template-columns: repeat(5, 50px);
+        gap: 3px; /* Reduced gap for mobile */
+    }
     .card {
         width: 50px;
         height: 50px;
@@ -257,6 +289,10 @@ button:hover {
         padding: 8px;
     }
     #hud span {
+        font-size: 0.8rem;
+    }
+    #level-select {
+        padding: 8px;
         font-size: 0.8rem;
     }
 }

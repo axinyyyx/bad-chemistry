@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bad Chemistry</title>
+    <title>Periodic Table Game</title>
+    <link rel="shortcut icon" href="static/logo/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
     <div id="app" class="dark-mode">
         <!-- Header -->
         <header>
-            <h1>Bad Chemistry</h1>
+            <h1>Periodic Table Game</h1>
             <div class="developer">
                 <img src="https://avatars.githubusercontent.com/u/194627494?v=4&size=64" alt="Developer Avatar">
                 <span>Developed by axinyyyx</span>
@@ -20,10 +21,13 @@
         <!-- Game HUD -->
         <div id="hud">
             <span>Level: <span id="level">1</span> (<span id="level-name">Beginner</span>)</span>
+            <span>Sub-Level: <span id="sub-level">1</span></span>
+            <span>Accuracy: <span id="accuracy">0%</span></span>
             <span>Lives: <span id="lives">❤❤❤</span></span>
             <span>Score: <span id="score">0</span>/<span id="target-score">20</span></span>
             <span>Time: <span id="timer">2:00</span></span>
-            <button id="hint-btn">Hint</button>
+            <button id="hint-btn">💡 Hint</button>
+            <button id="settings-btn">⚙️ Settings</button>
         </div>
 
         <!-- Game Area -->
@@ -42,27 +46,50 @@
         </div>
 
         <!-- Instructions Modal -->
-        <div id="instructions-modal" class="modal">
+        <div id="instructions-modal" class="modal hidden">
             <div class="modal-content">
                 <h2>How to Play</h2>
-                <p>Welcome to the Bad Chemistry! Learn all 118 elements by matching their symbols to their correct positions.</p>
+                <p>Welcome to the Periodic Table Game! Learn all 118 elements by matching their symbols to their correct positions.</p>
                 <ul>
-                    <li><strong>Objective:</strong> Click an element card (showing the symbol, e.g., "H") and then click the correct slot in the periodic table (showing the atomic number).</li>
+                    <li><strong>Objective:</strong> Click an element card (showing the symbol, e.g., "H") and then click the correct slot in the periodic table (showing the atomic number or "?").</li>
                     <li><strong>Lives:</strong> You have 3 lives. A wrong placement costs 1 life.</li>
                     <li><strong>Score:</strong> Earn 1 point per correct placement. Get 3 correct placements in a row for a +2 combo bonus!</li>
-                    <li><strong>Hint:</strong> Click the Hint button to reveal a symbol for 5 seconds (once per level).</li>
-                    <li><strong>Timer:</strong> Complete the level within 2 minutes.</li>
+                    <li><strong>Accuracy:</strong> Achieve 100% accuracy in each level to unlock the next. Accuracy is based on correct placements without errors.</li>
+                    <li><strong>Hint:</strong> Click the 💡 Hint button to reveal a symbol for 5 seconds (once per sub-level).</li>
+                    <li><strong>Timer:</strong> Complete each sub-level within 2 minutes.</li>
+                    <li><strong>Settings:</strong> Click the ⚙️ Settings button to toggle sound, reset levels, view instructions, or select previous levels.</li>
                     <li><strong>Levels:</strong>
                         <ul>
-                            <li>Level 1: First 20 elements (Beginner).</li>
-                            <li>Level 2: Metals and Non-Metals.</li>
-                            <li>Level 3: Transition Metals.</li>
-                            <li>Level 4: Rare Earths and Noble Gases.</li>
-                            <li>Level 5: Master Infinity (full periodic table).</li>
+                            <li>Level 1: Beginner (First 20 elements, multiple sub-levels).</li>
+                            <li>Level 2: Explorer (Metals and Non-Metals).</li>
+                            <li>Level 3: Pro (Transition Metals).</li>
+                            <li>Level 4: Mastermind (Rare Earths and Noble Gases).</li>
+                            <li>Level 5: Guru (Lanthanides and Actinides).</li>
+                            <li>Level 6: Infinity (Full periodic table).</li>
                         </ul>
                     </li>
                 </ul>
                 <button id="start-game-btn">Start Game</button>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Settings</h2>
+                <button id="show-instructions-btn">How to Play</button>
+                <div>
+                    <label for="sound-toggle">Sound Effects: </label>
+                    <input type="checkbox" id="sound-toggle" checked>
+                </div>
+                <div>
+                    <label for="level-select">Select Level: </label>
+                    <select id="level-select">
+                        <option value="1">Level 1: Beginner</option>
+                    </select>
+                </div>
+                <button id="reset-levels-btn">Reset Levels</button>
+                <button id="close-settings-btn">Close</button>
             </div>
         </div>
     </div>
