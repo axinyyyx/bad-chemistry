@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bad Chemistry - Elemental Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="hud">
+            <div class="level">Level: <span id="level-display">1</span>/25</div>
+            <div class="lives">Lives: <span id="lives">❤❤❤</span></div>
+            <div class="score">Score: <span id="score">0</span>/<span id="max-score">10</span></div>
+            <div class="accuracy">Accuracy: <span id="accuracy">0%</span></div>
+            <div class="timer">Time: <span id="timer">2:00</span></div>
+            <button id="hint-btn">Hint</button>
+            <button id="settings-btn">⚙️</button>
+        </div>
+        <div class="game-area">
+            <div class="periodic-table" id="periodic-table"></div>
+        </div>
+        <div class="card-area" id="card-area"></div>
+        <div class="modal" id="victory-modal">
+            <div class="modal-content">
+                <h2 id="modal-title">Level Complete!</h2>
+                <p id="modal-message">You're now an Elemental Beginner!</p>
+                <button id="next-level-btn">Next Level</button>
+                <button id="restart-btn">Restart</button>
+            </div>
+        </div>
+        <div class="modal" id="settings-modal">
+            <div class="modal-content">
+                <h2>Settings</h2>
+                <label><input type="checkbox" id="sound-toggle" checked> Sound Effects</label>
+                <button id="reset-progress-btn">Reset Progress</button>
+                <h2>About</h2>
+                <img src="https://avatars.githubusercontent.com/u/194627494?v=4" alt="Developer" class="developer-img">
+                <p>Developed by: axinyyyx</p>
+                <p>Bad Chemistry is a drag-and-drop game to master the periodic table. Match elements by their atomic number, name, or symbol across 25 levels, culminating in an infinite mode challenge!</p>
+                <button id="close-settings-btn">Close</button>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
