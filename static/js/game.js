@@ -192,23 +192,46 @@ const correctSound = new Howl({ src: ['sounds/correct.mp3'], onloaderror: () => 
 const wrongSound = new Howl({ src: ['sounds/wrong.mp3'], onloaderror: () => console.log("Wrong sound failed to load") });
 const victorySound = new Howl({ src: ['sounds/victory.mp3'], onloaderror: () => console.log("Victory sound failed to load") });
 
-function calculateGrid(itemCount) {
+function calculateTableGrid(itemCount, container) {
+    const containerRect = container.getBoundingClientRect();
+    const containerWidth = containerRect.width;
     const screenWidth = window.innerWidth;
-    let columns;
 
-    if (screenWidth <= 600) {
-        // For phones, limit to fewer columns to prevent overflow
-        columns = Math.min(itemCount, Math.floor(screenWidth / 60)); // 60px per slot/card
-        columns = Math.max(2, columns); // Ensure at least 2 columns
+    // Define grid layouts: 3x3, 4x3, or 4x4
+    let columns, rows;
+    if (itemCount <= 9) {
+        columns = 3;
+        rows = 3; // 3x3 grid for up to 9 items
+    } else if (itemCount <= 12) {
+        columns = 4;
+        rows = 3; // 4x3 grid for 10-12 items
     } else {
-        // For larger screens, use the default grid or adjust based on item count
-        const [defaultCols] = levelConfig[currentLevel - 1].grid.split("x").map(Number);
-        columns = Math.min(defaultCols, Math.floor(screenWidth / 80)); // 80px per slot/card
-        columns = Math.max(3, columns); // Ensure at least 3 columns
+        columns = 4;
+        rows = 4; // 4x4 grid for 13-16 items (or more)
     }
 
-    const rows = Math.ceil(itemCount / columns);
-    return { columns, rows };
+    // Calculate cell size to fit the container width while maintaining square shape
+    const cellSize = (containerWidth - (columns - 1) * 8) / columns; // 8px gap between cells
+
+    // Ensure the layout is consistent across devices
+    return { columns, rows, cellSize };
+}
+
+function calculateCardGrid(itemCount, container) {
+    const containerRect = container.getBoundingClientRect();
+    const containerWidth = containerRect.width;
+    const containerHeight = containerRect.height;
+    const screenWidth = window.innerWidth;
+
+    // Fix to 2 rows
+    const rows = 2;
+    const columns = Math.ceil(itemCount / rows);
+
+    // Calculate column width and row height
+    const columnWidth = (containerWidth - (columns - 1) * 8) / columns; // 8px gap between cells
+    const rowHeight = (containerHeight - 8) / rows; // 8px gap between rows
+
+    return { columns, rows, columnWidth, rowHeight };
 }
 
 function initGame() {
@@ -223,12 +246,14 @@ function initGame() {
     const allCards = [...levelElements, ...decoyElements].sort(() => Math.random() - 0.5);
 
     // Calculate grid for periodic table
-    const { columns: tableCols } = calculateGrid(levelElements.length);
-    periodicTable.style.gridTemplateColumns = `repeat(${tableCols}, 1fr)`;
+    const { columns: tableCols, rows: tableRows, cellSize: tableCellSize } = calculateTableGrid(levelElements.length, periodicTable);
+    periodicTable.style.gridTemplateColumns = `repeat(${tableCols}, ${tableCellSize}px)`;
+    periodicTable.style.gridTemplateRows = `repeat(${tableRows}, ${tableCellSize}px)`;
 
     // Calculate grid for card area
-    const { columns: cardCols } = calculateGrid(allCards.length);
-    cardArea.style.gridTemplateColumns = `repeat(${cardCols}, 1fr)`;
+    const { columns: cardCols, rows: cardRows, columnWidth: cardColWidth, rowHeight: cardRowHeight } = calculateCardGrid(allCards.length, cardArea);
+    cardArea.style.gridTemplateColumns = `repeat(${cardCols}, ${cardColWidth}px)`;
+    cardArea.style.gridTemplateRows = `repeat(${cardRows}, ${cardRowHeight}px)`;
 
     levelElements.forEach(element => {
         const slot = document.createElement("div");
@@ -304,10 +329,12 @@ function initGame() {
 
     // Recompute grid on window resize
     window.addEventListener('resize', () => {
-        const { columns: newTableCols } = calculateGrid(levelElements.length);
-        periodicTable.style.gridTemplateColumns = `repeat(${newTableCols}, 1fr)`;
-        const { columns: newCardCols } = calculateGrid(allCards.length);
-        cardArea.style.gridTemplateColumns = `repeat(${newCardCols}, 1fr)`;
+        const { columns: newTableCols, rows: newTableRows, cellSize: newTableCellSize } = calculateTableGrid(levelElements.length, periodicTable);
+        periodicTable.style.gridTemplateColumns = `repeat(${newTableCols}, ${newTableCellSize}px)`;
+        periodicTable.style.gridTemplateRows = `repeat(${newTableRows}, ${newTableCellSize}px)`;
+        const { columns: newCardCols, rows: newCardRows, columnWidth: newCardColWidth, rowHeight: newCardRowHeight } = calculateCardGrid(allCards.length, cardArea);
+        cardArea.style.gridTemplateColumns = `repeat(${newCardCols}, ${newCardColWidth}px)`;
+        cardArea.style.gridTemplateRows = `repeat(${newCardRows}, ${newCardRowHeight}px)`;
     });
 }
 
