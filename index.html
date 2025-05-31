@@ -2,59 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bad Chemistry</title>
     <link rel="stylesheet" href="static/css/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
-    <script src="static/js/game.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="game-area">
-            <div class="stats">
-                <span id="stats-display">Time: 2:00 | Score: 0/0 | Accuracy: 0%</span>
+    <div id="app" class="dark-mode">
+        <!-- Header -->
+        <header>
+            <h1>Bad Chemistry</h1>
+            <div class="developer">
+                <img src="https://avatars.githubusercontent.com/u/194627494?v=4&size=64" alt="Developer Avatar">
+                <span>Developed by axinyyyx</span>
             </div>
+        </header>
+
+        <!-- Game HUD -->
+        <div id="hud">
+            <span>Level: <span id="level">1</span> (<span id="level-name">Beginner</span>)</span>
+            <span>Lives: <span id="lives">❤❤❤</span></span>
+            <span>Score: <span id="score">0</span>/<span id="target-score">20</span></span>
+            <span>Time: <span id="timer">2:00</span></span>
+            <button id="hint-btn">Hint</button>
+        </div>
+
+        <!-- Game Area -->
+        <div id="game-area">
             <div id="periodic-table"></div>
-            <div id="card-area"></div>
-            <div class="lives-settings">
-                <span id="lives">❤❤❤</span>
-                <div class="settings-btns">
-                    <button id="hint-btn">💡</button>
-                    <button id="settings-btn">⚙️</button>
-                </div>
+            <div id="element-cards"></div>
+        </div>
+
+        <!-- Victory Modal -->
+        <div id="victory-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Level <span id="victory-level"></span> Complete!</h2>
+                <p>You're now an Elemental <span id="victory-title">Beginner</span>!</p>
+                <button id="next-level-btn">Next Level</button>
+            </div>
+        </div>
+
+        <!-- Instructions Modal -->
+        <div id="instructions-modal" class="modal">
+            <div class="modal-content">
+                <h2>How to Play</h2>
+                <p>Welcome to the Bad Chemistry! Learn all 118 elements by matching their symbols to their correct positions.</p>
+                <ul>
+                    <li><strong>Objective:</strong> Click an element card (showing the symbol, e.g., "H") and then click the correct slot in the periodic table (showing the atomic number).</li>
+                    <li><strong>Lives:</strong> You have 3 lives. A wrong placement costs 1 life.</li>
+                    <li><strong>Score:</strong> Earn 1 point per correct placement. Get 3 correct placements in a row for a +2 combo bonus!</li>
+                    <li><strong>Hint:</strong> Click the Hint button to reveal a symbol for 5 seconds (once per level).</li>
+                    <li><strong>Timer:</strong> Complete the level within 2 minutes.</li>
+                    <li><strong>Levels:</strong>
+                        <ul>
+                            <li>Level 1: First 20 elements (Beginner).</li>
+                            <li>Level 2: Metals and Non-Metals.</li>
+                            <li>Level 3: Transition Metals.</li>
+                            <li>Level 4: Rare Earths and Noble Gases.</li>
+                            <li>Level 5: Master Infinity (full periodic table).</li>
+                        </ul>
+                    </li>
+                </ul>
+                <button id="start-game-btn">Start Game</button>
             </div>
         </div>
     </div>
-    <div class="popup" id="settings-popup">
-        <div class="popup-content">
-            <button id="level-display">Level 1</button>
-            <label>Sound Effects <input type="checkbox" id="sound-toggle" checked></label>
-            <label>Theme <input type="checkbox" id="theme-toggle" checked> Dark</label>
-            <button id="reset-progress-btn">Reset Progress</button>
-            <div class="about-section">
-                <img src="https://avatars.githubusercontent.com/u/194627494?v=4" alt="Developer Avatar">
-                <p>Developed by: axinyyyx</p>
-            </div>
-            <div class="how-to-play">
-                <h3>How to Play</h3>
-                <p>Drag the element cards from the bottom grid and drop them into the correct slots in the top grid.</p>
-                <p>Match the elements based on their symbol or name, depending on the level's mode.</p>
-                <p>Earn points for correct matches, but lose lives for incorrect ones. Complete the level before time runs out!</p>
-            </div>
-            <button id="close-popup-btn">Close</button>
-        </div>
-    </div>
-    <div class="popup" id="hint-popup">
-        <div class="popup-content">
-            <p>Hint: The correct elements will be revealed for 5 seconds.</p>
-            <button id="close-hint-popup-btn">Close</button>
-        </div>
-    </div>
-    <div id="victory-modal">
-        <h2 id="modal-title"></h2>
-        <p id="modal-message"></p>
-        <button id="next-level-btn">Next Level</button>
-        <button id="restart-btn">Restart</button>
-    </div>
+
+    <script src="static/js/game.js"></script>
 </body>
 </html>

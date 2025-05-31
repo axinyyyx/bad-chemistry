@@ -1,554 +1,317 @@
 const elements = [
-    { atomic: 1, symbol: "H", name: "Hydrogen", group: "non-metal" },
-    { atomic: 2, symbol: "He", name: "Helium", group: "noble-gas" },
-    { atomic: 3, symbol: "Li", name: "Lithium", group: "alkali-metal" },
-    { atomic: 4, symbol: "Be", name: "Beryllium", group: "alkaline-earth-metal" },
-    { atomic: 5, symbol: "B", name: "Boron", group: "metalloid" },
-    { atomic: 6, symbol: "C", name: "Carbon", group: "non-metal" },
-    { atomic: 7, symbol: "N", name: "Nitrogen", group: "non-metal" },
-    { atomic: 8, symbol: "O", name: "Oxygen", group: "non-metal" },
-    { atomic: 9, symbol: "F", name: "Fluorine", group: "halogen" },
-    { atomic: 10, symbol: "Ne", name: "Neon", group: "noble-gas" },
-    { atomic: 11, symbol: "Na", name: "Sodium", group: "alkali-metal" },
-    { atomic: 12, symbol: "Mg", name: "Magnesium", group: "alkaline-earth-metal" },
-    { atomic: 13, symbol: "Al", name: "Aluminum", group: "post-transition-metal" },
-    { atomic: 14, symbol: "Si", name: "Silicon", group: "metalloid" },
-    { atomic: 15, symbol: "P", name: "Phosphorus", group: "non-metal" },
-    { atomic: 16, symbol: "S", name: "Sulfur", group: "non-metal" },
-    { atomic: 17, symbol: "Cl", name: "Chlorine", group: "halogen" },
-    { atomic: 18, symbol: "Ar", name: "Argon", group: "noble-gas" },
-    { atomic: 19, symbol: "K", name: "Potassium", group: "alkali-metal" },
-    { atomic: 20, symbol: "Ca", name: "Calcium", group: "alkaline-earth-metal" },
-    { atomic: 21, symbol: "Sc", name: "Scandium", group: "transition-metal" },
-    { atomic: 22, symbol: "Ti", name: "Titanium", group: "transition-metal" },
-    { atomic: 23, symbol: "V", name: "Vanadium", group: "transition-metal" },
-    { atomic: 24, symbol: "Cr", name: "Chromium", group: "transition-metal" },
-    { atomic: 25, symbol: "Mn", name: "Manganese", group: "transition-metal" },
-    { atomic: 26, symbol: "Fe", name: "Iron", group: "transition-metal" },
-    { atomic: 27, symbol: "Co", name: "Cobalt", group: "transition-metal" },
-    { atomic: 28, symbol: "Ni", name: "Nickel", group: "transition-metal" },
-    { atomic: 29, symbol: "Cu", name: "Copper", group: "transition-metal" },
-    { atomic: 30, symbol: "Zn", name: "Zinc", group: "transition-metal" },
-    { atomic: 31, symbol: "Ga", name: "Gallium", group: "post-transition-metal" },
-    { atomic: 32, symbol: "Ge", name: "Germanium", group: "metalloid" },
-    { atomic: 33, symbol: "As", name: "Arsenic", group: "metalloid" },
-    { atomic: 34, symbol: "Se", name: "Selenium", group: "non-metal" },
-    { atomic: 35, symbol: "Br", name: "Bromine", group: "halogen" },
-    { atomic: 36, symbol: "Kr", name: "Krypton", group: "noble-gas" },
-    { atomic: 37, symbol: "Rb", name: "Rubidium", group: "alkali-metal" },
-    { atomic: 38, symbol: "Sr", name: "Strontium", group: "alkaline-earth-metal" },
-    { atomic: 39, symbol: "Y", name: "Yttrium", group: "transition-metal" },
-    { atomic: 40, symbol: "Zr", name: "Zirconium", group: "transition-metal" },
-    { atomic: 41, symbol: "Nb", name: "Niobium", group: "transition-metal" },
-    { atomic: 42, symbol: "Mo", name: "Molybdenum", group: "transition-metal" },
-    { atomic: 43, symbol: "Tc", name: "Technetium", group: "transition-metal" },
-    { atomic: 44, symbol: "Ru", name: "Ruthenium", group: "transition-metal" },
-    { atomic: 45, symbol: "Rh", name: "Rhodium", group: "transition-metal" },
-    { atomic: 46, symbol: "Pd", name: "Palladium", group: "transition-metal" },
-    { atomic: 47, symbol: "Ag", name: "Silver", group: "transition-metal" },
-    { atomic: 48, symbol: "Cd", name: "Cadmium", group: "transition-metal" },
-    { atomic: 49, symbol: "In", name: "Indium", group: "post-transition-metal" },
-    { atomic: 50, symbol: "Sn", name: "Tin", group: "post-transition-metal" },
-    { atomic: 51, symbol: "Sb", name: "Antimony", group: "metalloid" },
-    { atomic: 52, symbol: "Te", name: "Tellurium", group: "metalloid" },
-    { atomic: 53, symbol: "I", name: "Iodine", group: "halogen" },
-    { atomic: 54, symbol: "Xe", name: "Xenon", group: "noble-gas" },
-    { atomic: 55, symbol: "Cs", name: "Cesium", group: "alkali-metal" },
-    { atomic: 56, symbol: "Ba", name: "Barium", group: "alkaline-earth-metal" },
-    { atomic: 57, symbol: "La", name: "Lanthanum", group: "lanthanide" },
-    { atomic: 58, symbol: "Ce", name: "Cerium", group: "lanthanide" },
-    { atomic: 59, symbol: "Pr", name: "Praseodymium", group: "lanthanide" },
-    { atomic: 60, symbol: "Nd", name: "Neodymium", group: "lanthanide" },
-    { atomic: 61, symbol: "Pm", name: "Promethium", group: "lanthanide" },
-    { atomic: 62, symbol: "Sm", name: "Samarium", group: "lanthanide" },
-    { atomic: 63, symbol: "Eu", name: "Europium", group: "lanthanide" },
-    { atomic: 64, symbol: "Gd", name: "Gadolinium", group: "lanthanide" },
-    { atomic: 65, symbol: "Tb", name: "Terbium", group: "lanthanide" },
-    { atomic: 66, symbol: "Dy", name: "Dysprosium", group: "lanthanide" },
-    { atomic: 67, symbol: "Ho", name: "Holmium", group: "lanthanide" },
-    { atomic: 68, symbol: "Er", name: "Erbium", group: "lanthanide" },
-    { atomic: 69, symbol: "Tm", name: "Thulium", group: "lanthanide" },
-    { atomic: 70, symbol: "Yb", name: "Ytterbium", group: "lanthanide" },
-    { atomic: 71, symbol: "Lu", name: "Lutetium", group: "lanthanide" },
-    { atomic: 72, symbol: "Hf", name: "Hafnium", group: "transition-metal" },
-    { atomic: 73, symbol: "Ta", name: "Tantalum", group: "transition-metal" },
-    { atomic: 74, symbol: "W", name: "Tungsten", group: "transition-metal" },
-    { atomic: 75, symbol: "Re", name: "Rhenium", group: "transition-metal" },
-    { atomic: 76, symbol: "Os", name: "Osmium", group: "transition-metal" },
-    { atomic: 77, symbol: "Ir", name: "Iridium", group: "transition-metal" },
-    { atomic: 78, symbol: "Pt", name: "Platinum", group: "transition-metal" },
-    { atomic: 79, symbol: "Au", name: "Gold", group: "transition-metal" },
-    { atomic: 80, symbol: "Hg", name: "Mercury", group: "transition-metal" },
-    { atomic: 81, symbol: "Tl", name: "Thallium", group: "post-transition-metal" },
-    { atomic: 82, symbol: "Pb", name: "Lead", group: "post-transition-metal" },
-    { atomic: 83, symbol: "Bi", name: "Bismuth", group: "post-transition-metal" },
-    { atomic: 84, symbol: "Po", name: "Polonium", group: "post-transition-metal" },
-    { atomic: 85, symbol: "At", name: "Astatine", group: "halogen" },
-    { atomic: 86, symbol: "Rn", name: "Radon", group: "noble-gas" },
-    { atomic: 87, symbol: "Fr", name: "Francium", group: "alkali-metal" },
-    { atomic: 88, symbol: "Ra", name: "Radium", group: "alkaline-earth-metal" },
-    { atomic: 89, symbol: "Ac", name: "Actinium", group: "actinide" },
-    { atomic: 90, symbol: "Th", name: "Thorium", group: "actinide" },
-    { atomic: 91, symbol: "Pa", name: "Protactinium", group: "actinide" },
-    { atomic: 92, symbol: "U", name: "Uranium", group: "actinide" },
-    { atomic: 93, symbol: "Np", name: "Neptunium", group: "actinide" },
-    { atomic: 94, symbol: "Pu", name: "Plutonium", group: "actinide" },
-    { atomic: 95, symbol: "Am", name: "Americium", group: "actinide" },
-    { atomic: 96, symbol: "Cm", name: "Curium", group: "actinide" },
-    { atomic: 97, symbol: "Bk", name: "Berkelium", group: "actinide" },
-    { atomic: 98, symbol: "Cf", name: "Californium", group: "actinide" },
-    { atomic: 99, symbol: "Es", name: "Einsteinium", group: "actinide" },
-    { atomic: 100, symbol: "Fm", name: "Fermium", group: "actinide" },
-    { atomic: 101, symbol: "Md", name: "Mendelevium", group: "actinide" },
-    { atomic: 102, symbol: "No", name: "Nobelium", group: "actinide" },
-    { atomic: 103, symbol: "Lr", name: "Lawrencium", group: "actinide" },
-    { atomic: 104, symbol: "Rf", name: "Rutherfordium", group: "transition-metal" },
-    { atomic: 105, symbol: "Db", name: "Dubnium", group: "transition-metal" },
-    { atomic: 106, symbol: "Sg", name: "Seaborgium", group: "transition-metal" },
-    { atomic: 107, symbol: "Bh", name: "Bohrium", group: "transition-metal" },
-    { atomic: 108, symbol: "Hs", name: "Hassium", group: "transition-metal" },
-    { atomic: 109, symbol: "Mt", name: "Meitnerium", group: "transition-metal" },
-    { atomic: 110, symbol: "Ds", name: "Darmstadtium", group: "transition-metal" },
-    { atomic: 111, symbol: "Rg", name: "Roentgenium", group: "transition-metal" },
-    { atomic: 112, symbol: "Cn", name: "Copernicium", group: "transition-metal" },
-    { atomic: 113, symbol: "Nh", name: "Nihonium", group: "post-transition-metal" },
-    { atomic: 114, symbol: "Fl", name: "Flerovium", group: "post-transition-metal" },
-    { atomic: 115, symbol: "Mc", name: "Moscovium", group: "post-transition-metal" },
-    { atomic: 116, symbol: "Lv", name: "Livermorium", group: "post-transition-metal" },
-    { atomic: 117, symbol: "Ts", name: "Tennessine", group: "halogen" },
-    { atomic: 118, symbol: "Og", name: "Oganesson", group: "noble-gas" }
+    { atomicNumber: 1, name: "Hydrogen", symbol: "H", group: "non-metal" },
+    { atomicNumber: 2, name: "Helium", symbol: "He", group: "noble-gas" },
+    { atomicNumber: 3, name: "Lithium", symbol: "Li", group: "alkali-metal" },
+    { atomicNumber: 4, name: "Beryllium", symbol: "Be", group: "alkaline-earth-metal" },
+    { atomicNumber: 5, name: "Boron", symbol: "B", group: "metalloid" },
+    { atomicNumber: 6, name: "Carbon", symbol: "C", group: "non-metal" },
+    { atomicNumber: 7, name: "Nitrogen", symbol: "N", group: "non-metal" },
+    { atomicNumber: 8, name: "Oxygen", symbol: "O", group: "non-metal" },
+    { atomicNumber: 9, name: "Fluorine", symbol: "F", group: "non-metal" },
+    { atomicNumber: 10, name: "Neon", symbol: "Ne", group: "noble-gas" },
+    { atomicNumber: 11, name: "Sodium", symbol: "Na", group: "alkali-metal" },
+    { atomicNumber: 12, name: "Magnesium", symbol: "Mg", group: "alkaline-earth-metal" },
+    { atomicNumber: 13, name: "Aluminium", symbol: "Al", group: "post-transition-metal" },
+    { atomicNumber: 14, name: "Silicon", symbol: "Si", group: "metalloid" },
+    { atomicNumber: 15, name: "Phosphorus", symbol: "P", group: "non-metal" },
+    { atomicNumber: 16, name: "Sulfur", symbol: "S", group: "non-metal" },
+    { atomicNumber: 17, name: "Chlorine", symbol: "Cl", group: "non-metal" },
+    { atomicNumber: 18, name: "Argon", symbol: "Ar", group: "noble-gas" },
+    { atomicNumber: 19, name: "Potassium", symbol: "K", group: "alkali-metal" },
+    { atomicNumber: 20, name: "Calcium", symbol: "Ca", group: "alkaline-earth-metal" },
+    { atomicNumber: 21, name: "Scandium", symbol: "Sc", group: "transition-metal" },
+    { atomicNumber: 22, name: "Titanium", symbol: "Ti", group: "transition-metal" },
+    { atomicNumber: 23, name: "Vanadium", symbol: "V", group: "transition-metal" },
+    { atomicNumber: 24, name: "Chromium", symbol: "Cr", group: "transition-metal" },
+    { atomicNumber: 25, name: "Manganese", symbol: "Mn", group: "transition-metal" },
+    { atomicNumber: 26, name: "Iron", symbol: "Fe", group: "transition-metal" },
+    { atomicNumber: 27, name: "Cobalt", symbol: "Co", group: "transition-metal" },
+    { atomicNumber: 28, name: "Nickel", symbol: "Ni", group: "transition-metal" },
+    { atomicNumber: 29, name: "Copper", symbol: "Cu", group: "transition-metal" },
+    { atomicNumber: 30, name: "Zinc", symbol: "Zn", group: "transition-metal" },
+    { atomicNumber: 31, name: "Gallium", symbol: "Ga", group: "post-transition-metal" },
+    { atomicNumber: 32, name: "Germanium", symbol: "Ge", group: "metalloid" },
+    { atomicNumber: 33, name: "Arsenic", symbol: "As", group: "metalloid" },
+    { atomicNumber: 34, name: "Selenium", symbol: "Se", group: "non-metal" },
+    { atomicNumber: 35, name: "Bromine", symbol: "Br", group: "non-metal" },
+    { atomicNumber: 36, name: "Krypton", symbol: "Kr", group: "noble-gas" },
+    { atomicNumber: 37, name: "Rubidium", symbol: "Rb", group: "alkali-metal" },
+    { atomicNumber: 38, name: "Strontium", symbol: "Sr", group: "alkaline-earth-metal" },
+    { atomicNumber: 39, name: "Yttrium", symbol: "Y", group: "transition-metal" },
+    { atomicNumber: 40, name: "Zirconium", symbol: "Zr", group: "transition-metal" },
+    { atomicNumber: 41, name: "Niobium", symbol: "Nb", group: "transition-metal" },
+    { atomicNumber: 42, name: "Molybdenum", symbol: "Mo", group: "transition-metal" },
+    { atomicNumber: 43, name: "Technetium", symbol: "Tc", group: "transition-metal" },
+    { atomicNumber: 44, name: "Ruthenium", symbol: "Ru", group: "transition-metal" },
+    { atomicNumber: 45, name: "Rhodium", symbol: "Rh", group: "transition-metal" },
+    { atomicNumber: 46, name: "Palladium", symbol: "Pd", group: "transition-metal" },
+    { atomicNumber: 47, name: "Silver", symbol: "Ag", group: "transition-metal" },
+    { atomicNumber: 48, name: "Cadmium", symbol: "Cd", group: "transition-metal" },
+    { atomicNumber: 49, name: "Indium", symbol: "In", group: "post-transition-metal" },
+    { atomicNumber: 50, name: "Tin", symbol: "Sn", group: "post-transition-metal" },
+    { atomicNumber: 51, name: "Antimony", symbol: "Sb", group: "metalloid" },
+    { atomicNumber: 52, name: "Tellurium", symbol: "Te", group: "metalloid" },
+    { atomicNumber: 53, name: "Iodine", symbol: "I", group: "non-metal" },
+    { atomicNumber: 54, name: "Xenon", symbol: "Xe", group: "noble-gas" },
+    { atomicNumber: 55, name: "Caesium", symbol: "Cs", group: "alkali-metal" },
+    { atomicNumber: 56, name: "Barium", symbol: "Ba", group: "alkaline-earth-metal" },
+    { atomicNumber: 57, name: "Lanthanum", symbol: "La", group: "lanthanide" },
+    { atomicNumber: 58, name: "Cerium", symbol: "Ce", group: "lanthanide" },
+    { atomicNumber: 59, name: "Praseodymium", symbol: "Pr", group: "lanthanide" },
+    { atomicNumber: 60, name: "Neodymium", symbol: "Nd", group: "lanthanide" },
+    { atomicNumber: 61, name: "Promethium", symbol: "Pm", group: "lanthanide" },
+    { atomicNumber: 62, name: "Samarium", symbol: "Sm", group: "lanthanide" },
+    { atomicNumber: 63, name: "Europium", symbol: "Eu", group: "lanthanide" },
+    { atomicNumber: 64, name: "Gadolinium", symbol: "Gd", group: "lanthanide" },
+    { atomicNumber: 65, name: "Terbium", symbol: "Tb", group: "lanthanide" },
+    { atomicNumber: 66, name: "Dysprosium", symbol: "Dy", group: "lanthanide" },
+    { atomicNumber: 67, name: "Holmium", symbol: "Ho", group: "lanthanide" },
+    { atomicNumber: 68, name: "Erbium", symbol: "Er", group: "lanthanide" },
+    { atomicNumber: 69, name: "Thulium", symbol: "Tm", group: "lanthanide" },
+    { atomicNumber: 70, name: "Ytterbium", symbol: "Yb", group: "lanthanide" },
+    { atomicNumber: 71, name: "Lutetium", symbol: "Lu", group: "lanthanide" },
+    { atomicNumber: 72, name: "Hafnium", symbol: "Hf", group: "transition-metal" },
+    { atomicNumber: 73, name: "Tantalum", symbol: "Ta", group: "transition-metal" },
+    { atomicNumber: 74, name: "Tungsten", symbol: "W", group: "transition-metal" },
+    { atomicNumber: 75, name: "Rhenium", symbol: "Re", group: "transition-metal" },
+    { atomicNumber: 76, name: "Osmium", symbol: "Os", group: "transition-metal" },
+    { atomicNumber: 77, name: "Iridium", symbol: "Ir", group: "transition-metal" },
+    { atomicNumber: 78, name: "Platinum", symbol: "Pt", group: "transition-metal" },
+    { atomicNumber: 79, name: "Gold", symbol: "Au", group: "transition-metal" },
+    { atomicNumber: 80, name: "Mercury", symbol: "Hg", group: "transition-metal" },
+    { atomicNumber: 81, name: "Thallium", symbol: "Tl", group: "post-transition-metal" },
+    { atomicNumber: 82, name: "Lead", symbol: "Pb", group: "post-transition-metal" },
+    { atomicNumber: 83, name: "Bismuth", symbol: "Bi", group: "post-transition-metal" },
+    { atomicNumber: 84, name: "Polonium", symbol: "Po", group: "post-transition-metal" },
+    { atomicNumber: 85, name: "Astatine", symbol: "At", group: "metalloid" },
+    { atomicNumber: 86, name: "Radon", symbol: "Rn", group: "noble-gas" },
+    { atomicNumber: 87, name: "Francium", symbol: "Fr", group: "alkali-metal" },
+    { atomicNumber: 88, name: "Radium", symbol: "Ra", group: "alkaline-earth-metal" },
+    { atomicNumber: 89, name: "Actinium", symbol: "Ac", group: "actinide" },
+    { atomicNumber: 90, name: "Thorium", symbol: "Th", group: "actinide" },
+    { atomicNumber: 91, name: "Protactinium", symbol: "Pa", group: "actinide" },
+    { atomicNumber: 92, name: "Uranium", symbol: "U", group: "actinide" },
+    { atomicNumber: 93, name: "Neptunium", symbol: "Np", group: "actinide" },
+    { atomicNumber: 94, name: "Plutonium", symbol: "Pu", group: "actinide" },
+    { atomicNumber: 95, name: "Americium", symbol: "Am", group: "actinide" },
+    { atomicNumber: 96, name: "Curium", symbol: "Cm", group: "actinide" },
+    { atomicNumber: 97, name: "Berkelium", symbol: "Bk", group: "actinide" },
+    { atomicNumber: 98, name: "Californium", symbol: "Cf", group: "actinide" },
+    { atomicNumber: 99, name: "Einsteinium", symbol: "Es", group: "actinide" },
+    { atomicNumber: 100, name: "Fermium", symbol: "Fm", group: "actinide" },
+    { atomicNumber: 101, name: "Mendelevium", symbol: "Md", group: "actinide" },
+    { atomicNumber: 102, name: "Nobelium", symbol: "No", group: "actinide" },
+    { atomicNumber: 103, name: "Lawrencium", symbol: "Lr", group: "actinide" },
+    { atomicNumber: 104, name: "Rutherfordium", symbol: "Rf", group: "transition-metal" },
+    { atomicNumber: 105, name: "Dubnium", symbol: "Db", group: "transition-metal" },
+    { atomicNumber: 106, name: "Seaborgium", symbol: "Sg", group: "transition-metal" },
+    { atomicNumber: 107, name: "Bohrium", symbol: "Bh", group: "transition-metal" },
+    { atomicNumber: 108, name: "Hassium", symbol: "Hs", group: "transition-metal" },
+    { atomicNumber: 109, name: "Meitnerium", symbol: "Mt", group: "transition-metal" },
+    { atomicNumber: 110, name: "Darmstadtium", symbol: "Ds", group: "transition-metal" },
+    { atomicNumber: 111, name: "Roentgenium", symbol: "Rg", group: "transition-metal" },
+    { atomicNumber: 112, name: "Copernicium", symbol: "Cn", group: "transition-metal" },
+    { atomicNumber: 113, name: "Nihonium", symbol: "Nh", group: "post-transition-metal" },
+    { atomicNumber: 114, name: "Flerovium", symbol: "Fl", group: "post-transition-metal" },
+    { atomicNumber: 115, name: "Moscovium", symbol: "Mc", group: "post-transition-metal" },
+    { atomicNumber: 116, name: "Livermorium", symbol: "Lv", group: "post-transition-metal" },
+    { atomicNumber: 117, name: "Tennessine", symbol: "Ts", group: "metalloid" },
+    { atomicNumber: 118, name: "Oganesson", symbol: "Og", group: "noble-gas" }
 ];
 
-const levelConfig = [
-    { elements: [1, 3, 11, 19, 37, 55, 87], group: "alkali-metal", decoys: 0, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [1, 3, 11, 19, 37, 55, 87], group: "alkali-metal", decoys: 2, hideAtomic: false, mode: "symbol", time: 110, grid: "4x2" },
-    { elements: [1, 3, 11, 19, 37, 55, 87], group: "alkali-metal", decoys: 3, hideAtomic: true, mode: "name", time: 100, grid: "4x2" },
-    { elements: [4, 12, 20, 38, 56, 88], group: "alkaline-earth-metal", decoys: 0, hideAtomic: false, mode: "mixed", time: 110, grid: "3x2" },
-    { elements: [4, 12, 20, 38, 56, 88], group: "alkaline-earth-metal", decoys: 2, hideAtomic: false, mode: "symbol", time: 100, grid: "3x2" },
-    { elements: [4, 12, 20, 38, 56, 88], group: "alkaline-earth-metal", decoys: 3, hideAtomic: true, mode: "name", time: 90, grid: "3x2" },
-    { elements: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30], group: "transition-metal-1", decoys: 0, hideAtomic: false, mode: "mixed", time: 130, grid: "5x2" },
-    { elements: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30], group: "transition-metal-1", decoys: 3, hideAtomic: false, mode: "symbol", time: 120, grid: "5x2" },
-    { elements: [39, 40, 41, 42, 43, 44, 45, 46, 47, 48], group: "transition-metal-2", decoys: 0, hideAtomic: false, mode: "mixed", time: 130, grid: "5x2" },
-    { elements: [39, 40, 41, 42, 43, 44, 45, 46, 47, 48], group: "transition-metal-2", decoys: 3, hideAtomic: true, mode: "name", time: 120, grid: "5x2" },
-    { elements: [72, 73, 74, 75, 76, 77, 78, 79, 80], group: "transition-metal-3", decoys: 0, hideAtomic: false, mode: "mixed", time: 120, grid: "3x3" },
-    { elements: [72, 73, 74, 75, 76, 77, 78, 79, 80], group: "transition-metal-3", decoys: 3, hideAtomic: true, mode: "symbol", time: 110, grid: "3x3" },
-    { elements: [104, 105, 106, 107, 108, 109, 110, 111, 112], group: "transition-metal-4", decoys: 0, hideAtomic: false, mode: "mixed", time: 120, grid: "3x3" },
-    { elements: [104, 105, 106, 107, 108, 109, 110, 111, 112], group: "transition-metal-4", decoys: 3, hideAtomic: true, mode: "name", time: 110, grid: "3x3" },
-    { elements: [13, 31, 49, 50, 81, 82, 83, 84], group: "post-transition-metal-1", decoys: 0, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [13, 31, 49, 50, 81, 82, 83, 84], group: "post-transition-metal-1", decoys: 3, hideAtomic: false, mode: "symbol", time: 110, grid: "4x2" },
-    { elements: [113, 114, 115, 116], group: "post-transition-metal-2", decoys: 2, hideAtomic: false, mode: "mixed", time: 90, grid: "2x2" },
-    { elements: [113, 114, 115, 116], group: "post-transition-metal-2", decoys: 3, hideAtomic: true, mode: "symbol", time: 80, grid: "2x2" },
-    { elements: [5, 14, 32, 33, 51, 52], group: "metalloid", decoys: 0, hideAtomic: false, mode: "mixed", time: 110, grid: "3x2" },
-    { elements: [5, 14, 32, 33, 51, 52], group: "metalloid", decoys: 3, hideAtomic: true, mode: "name", time: 100, grid: "3x2" },
-    { elements: [6, 7, 8, 15, 16, 34], group: "non-metal-1", decoys: 0, hideAtomic: false, mode: "mixed", time: 110, grid: "3x2" },
-    { elements: [6, 7, 8, 15, 16, 34], group: "non-metal-1", decoys: 3, hideAtomic: false, mode: "symbol", time: 100, grid: "3x2" },
-    { elements: [1], group: "non-metal-2", decoys: 2, hideAtomic: false, mode: "mixed", time: 60, grid: "1x1" },
-    { elements: [1], group: "non-metal-2", decoys: 3, hideAtomic: true, mode: "name", time: 50, grid: "1x1" },
-    { elements: [9, 17, 35, 53, 85, 117], group: "halogen", decoys: 0, hideAtomic: false, mode: "mixed", time: 110, grid: "3x2" },
-    { elements: [9, 17, 35, 53, 85, 117], group: "halogen", decoys: 3, hideAtomic: true, mode: "symbol", time: 100, grid: "3x2" },
-    { elements: [2, 10, 18, 36, 54, 86, 118], group: "noble-gas", decoys: 0, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [2, 10, 18, 36, 54, 86, 118], group: "noble-gas", decoys: 3, hideAtomic: true, mode: "name", time: 110, grid: "4x2" },
-    { elements: [57, 58, 59, 60, 61, 62, 63], group: "lanthanide-1", decoys: 0, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [57, 58, 59, 60, 61, 62, 63], group: "lanthanide-1", decoys: 3, hideAtomic: false, mode: "symbol", time: 110, grid: "4x2" },
-    { elements: [64, 65, 66, 67, 68, 69, 70, 71], group: "lanthanide-2", decoys: 0, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [64, 65, 66, 67, 68, 69, 70, 71], group: "lanthanide-2", decoys: 3, hideAtomic: true, mode: "name", time: 110, grid: "4x2" },
-    { elements: [89, 90, 91, 92, 93, 94, 95], group: "actinide-1", decoys: 0, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [89, 90, 91, 92, 93, 94, 95], group: "actinide-1", decoys: 3, hideAtomic: false, mode: "symbol", time: 110, grid: "4x2" },
-    { elements: [96, 97, 98, 99, 100, 101, 102, 103], group: "actinide-2", decoys: 0, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [96, 97, 98, 99, 100, 101, 102, 103], group: "actinide-2", decoys: 3, hideAtomic: true, mode: "name", time: 110, grid: "4x2" },
-    { elements: [1, 3, 11, 19, 6, 7, 8, 15, 16, 34], group: "mixed-1", decoys: 3, hideAtomic: false, mode: "mixed", time: 130, grid: "5x2" },
-    { elements: [1, 3, 11, 19, 6, 7, 8, 15, 16, 34], group: "mixed-1", decoys: 4, hideAtomic: true, mode: "symbol", time: 120, grid: "5x2" },
-    { elements: [21, 22, 23, 24, 25, 5, 14, 32, 33], group: "mixed-2", decoys: 3, hideAtomic: false, mode: "mixed", time: 130, grid: "3x3" },
-    { elements: [21, 22, 23, 24, 25, 5, 14, 32, 33], group: "mixed-2", decoys: 4, hideAtomic: true, mode: "name", time: 120, grid: "3x3" },
-    { elements: [39, 40, 41, 42, 9, 17, 35, 53], group: "mixed-3", decoys: 3, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [39, 40, 41, 42, 9, 17, 35, 53], group: "mixed-3", decoys: 4, hideAtomic: true, mode: "symbol", time: 110, grid: "4x2" },
-    { elements: [72, 73, 74, 75, 2, 10, 18, 36], group: "mixed-4", decoys: 3, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [72, 73, 74, 75, 2, 10, 18, 36], group: "mixed-4", decoys: 4, hideAtomic: true, mode: "name", time: 110, grid: "4x2" },
-    { elements: [57, 58, 59, 60, 13, 31, 49, 50], group: "mixed-5", decoys: 3, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [57, 58, 59, 60, 13, 31, 49, 50], group: "mixed-5", decoys: 4, hideAtomic: true, mode: "symbol", time: 110, grid: "4x2" },
-    { elements: [89, 90, 91, 92, 104, 105, 106, 107], group: "mixed-6", decoys: 3, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [89, 90, 91, 92, 104, 105, 106, 107], group: "mixed-6", decoys: 4, hideAtomic: true, mode: "name", time: 110, grid: "4x2" },
-    { elements: [113, 114, 115, 116, 64, 65, 66, 67], group: "mixed-7", decoys: 3, hideAtomic: false, mode: "mixed", time: 120, grid: "4x2" },
-    { elements: [113, 114, 115, 116, 64, 65, 66, 67], group: "mixed-7", decoys: 4, hideAtomic: true, mode: "symbol", time: 110, grid: "4x2" },
-    { elements: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], group: "master-challenge-1", decoys: 5, hideAtomic: true, mode: "mixed", time: 180, grid: "5x4" },
-    { elements: Array.from({length: 118}, (_, i) => i + 1), group: "master-challenge-2", decoys: 10, hideAtomic: true, mode: "mixed", time: 300, grid: "10x12" },
-    { elements: Array.from({length: 118}, (_, i) => i + 1), group: "infinite", decoys: 0, hideAtomic: true, mode: "mixed", time: 150, grid: "5x4", infinite: true }
+const levelConfigs = [
+    { name: "Beginner", elements: elements.slice(0, 20), targetScore: 20, decoys: 0, showAtomicNumber: true },
+    { name: "Metals & Non-Metals", elements: elements.filter(e => ["alkali-metal", "alkaline-earth-metal", "post-transition-metal", "metalloid", "non-metal"].includes(e.group)).slice(0, 20), targetScore: 20, decoys: 2, showAtomicNumber: true },
+    { name: "Transition Metals", elements: elements.filter(e => e.group === "transition-metal").slice(0, 20), targetScore: 20, decoys: 3, showAtomicNumber: false },
+    { name: "Rare Earths & Noble Gases", elements: elements.filter(e => ["lanthanide", "actinide", "noble-gas"].includes(e.group)), targetScore: 23, decoys: 4, showAtomicNumber: false },
+    { name: "Master Infinity", elements: elements, targetScore: 30, decoys: 5, showAtomicNumber: false }
 ];
 
-let currentLevel = parseInt(getCookie("highestLevel")) || 1;
+let currentLevel = 1;
 let lives = 3;
 let score = 0;
-let totalScore = parseInt(getCookie("totalScore")) || 0;
 let combo = 0;
-let timeLeft = 120;
-let gameActive = true;
-let correctAttempts = 0;
-let totalAttempts = 0;
-let soundEnabled = getCookie("soundEnabled") !== "false";
-let infiniteRound = 0;
-let isDarkTheme = getCookie("theme") !== "light";
+let hintUsed = false;
+let selectedCard = null;
+let timer;
+let timeLeft = 120; // 2 minutes
 
-const correctSound = new Howl({ src: ['sounds/correct.mp3'], onloaderror: () => console.log("Correct sound failed to load") });
-const wrongSound = new Howl({ src: ['sounds/wrong.mp3'], onloaderror: () => console.log("Wrong sound failed to load") });
-const victorySound = new Howl({ src: ['sounds/victory.mp3'], onloaderror: () => console.log("Victory sound failed to load") });
-
-function calculateTableGrid(itemCount, container) {
-    const containerRect = container.getBoundingClientRect();
-    const containerWidth = containerRect.width;
-    const screenWidth = window.innerWidth;
-
-    // Define grid layouts: 3x3, 4x3, or 4x4
-    let columns, rows;
-    if (itemCount <= 9) {
-        columns = 3;
-        rows = 3; // 3x3 grid for up to 9 items
-    } else if (itemCount <= 12) {
-        columns = 4;
-        rows = 3; // 4x3 grid for 10-12 items
-    } else {
-        columns = 4;
-        rows = 4; // 4x4 grid for 13-16 items (or more)
-    }
-
-    // Calculate cell size to fit the container width while maintaining square shape
-    const cellSize = (containerWidth - (columns - 1) * 8) / columns; // 8px gap between cells
-
-    // Ensure the layout is consistent across devices
-    return { columns, rows, cellSize };
-}
-
-function calculateCardGrid(itemCount, container) {
-    const containerRect = container.getBoundingClientRect();
-    const containerWidth = containerRect.width;
-    const containerHeight = containerRect.height;
-    const screenWidth = window.innerWidth;
-
-    // Fix to 2 rows
-    const rows = 2;
-    const columns = Math.ceil(itemCount / rows);
-
-    // Calculate column width and row height
-    const columnWidth = (containerWidth - (columns - 1) * 8) / columns; // 8px gap between cells
-    const rowHeight = (containerHeight - 8) / rows; // 8px gap between rows
-
-    return { columns, rows, columnWidth, rowHeight };
-}
+const correctSound = new Audio('static/sounds/correct.mp3');
+const wrongSound = new Audio('static/sounds/wrong.mp3');
+const victorySound = new Audio('static/sounds/victory.mp3');
 
 function initGame() {
-    const config = levelConfig[currentLevel - 1];
-    const periodicTable = document.getElementById("periodic-table");
-    const cardArea = document.getElementById("card-area");
-    periodicTable.innerHTML = "";
-    cardArea.innerHTML = "";
+    document.getElementById('instructions-modal').classList.remove('hidden');
+    document.getElementById('start-game-btn').addEventListener('click', () => {
+        document.getElementById('instructions-modal').classList.add('hidden');
+        startLevel(currentLevel);
+    });
+}
 
-    let levelElements = config.infinite && infiniteRound > 0 ? getRandomElements(20) : config.group === "master-challenge-2" ? getRandomElements(118) : elements.filter(e => config.elements.includes(e.atomic));
-    const decoyElements = config.infinite && infiniteRound > 0 ? getRandomDecoys(config.decoys) : elements.filter(e => !config.elements.includes(e.atomic)).slice(0, config.decoys);
-    const allCards = [...levelElements, ...decoyElements].sort(() => Math.random() - 0.5);
+function startLevel(level) {
+    lives = 3;
+    score = 0;
+    combo = 0;
+    hintUsed = false;
+    timeLeft = 120;
+    selectedCard = null;
+    updateHUD();
+    setupGameBoard(level);
+    startTimer();
+}
 
-    // Calculate grid for periodic table
-    const { columns: tableCols, rows: tableRows, cellSize: tableCellSize } = calculateTableGrid(levelElements.length, periodicTable);
-    periodicTable.style.gridTemplateColumns = `repeat(${tableCols}, ${tableCellSize}px)`;
-    periodicTable.style.gridTemplateRows = `repeat(${tableRows}, ${tableCellSize}px)`;
+function setupGameBoard(level) {
+    const config = levelConfigs[level - 1];
+    let levelElements = config.elements.slice(0, config.targetScore);
+    const periodicTable = document.getElementById('periodic-table');
+    const elementCards = document.getElementById('element-cards');
+    periodicTable.innerHTML = '';
+    elementCards.innerHTML = '';
 
-    // Calculate grid for card area
-    const { columns: cardCols, rows: cardRows, columnWidth: cardColWidth, rowHeight: cardRowHeight } = calculateCardGrid(allCards.length, cardArea);
-    cardArea.style.gridTemplateColumns = `repeat(${cardCols}, ${cardColWidth}px)`;
-    cardArea.style.gridTemplateRows = `repeat(${cardRows}, ${cardRowHeight}px)`;
+    // Add decoy cards
+    const decoyElements = elements.filter(e => !levelElements.includes(e));
+    for (let i = 0; i < config.decoys; i++) {
+        if (decoyElements.length > 0) {
+            const decoy = decoyElements[Math.floor(Math.random() * decoyElements.length)];
+            levelElements.push({ ...decoy, isDecoy: true });
+        }
+    }
+    levelElements = levelElements.sort(() => Math.random() - 0.5); // Shuffle
+
+    const gridCols = Math.min(levelElements.length, 5);
+    document.getElementById('periodic-table').style.gridTemplateColumns = `repeat(${gridCols}, 60px)`;
 
     levelElements.forEach(element => {
-        const slot = document.createElement("div");
-        slot.classList.add("slot");
-        slot.dataset.atomic = element.atomic;
-        slot.innerHTML = config.hideAtomic ? "" : `${element.atomic} ${element.name} (${element.symbol})`;
-        periodicTable.appendChild(slot);
+        if (!element.isDecoy) {
+            const slot = document.createElement('div');
+            slot.classList.add('slot');
+            slot.dataset.atomicNumber = element.atomicNumber;
+            slot.textContent = config.showAtomicNumber ? element.atomicNumber : '?';
+            slot.addEventListener('click', () => handleSlotClick(slot));
+            periodicTable.appendChild(slot);
+        }
+
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.dataset.atomicNumber = element.atomicNumber;
+        card.textContent = element.symbol; // Only symbols
+        card.addEventListener('click', () => handleCardClick(card));
+        elementCards.appendChild(card);
     });
 
-    allCards.forEach(element => {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.draggable = true;
-        card.dataset.atomic = element.atomic;
-        card.textContent = config.mode === "symbol" ? element.symbol : config.mode === "name" ? element.name : Math.random() > 0.5 ? element.symbol : element.name;
-        cardArea.appendChild(card);
-    });
-
-    document.querySelectorAll(".slot").forEach(slot => {
-        slot.addEventListener("dragover", dragOver);
-        slot.addEventListener("drop", drop);
-        slot.addEventListener("touchstart", touchStart, { passive: false });
-        slot.addEventListener("touchmove", touchMove, { passive: false });
-        slot.addEventListener("touchend", touchEnd, { passive: false });
-    });
-
-    document.querySelectorAll(".card").forEach(card => {
-        card.addEventListener("dragstart", dragStart);
-        card.addEventListener("touchstart", touchStart, { passive: false });
-        card.addEventListener("touchmove", touchMove, { passive: false });
-        card.addEventListener("touchend", touchEnd, { passive: false });
-    });
-
-    document.getElementById("level-display").textContent = config.infinite ? `Level ${currentLevel} (Round ${infiniteRound + 1})` : `Level ${currentLevel}`;
-    document.getElementById("stats-display").textContent = `Time: ${Math.floor(config.time / 60)}:${(config.time % 60).toString().padStart(2, "0")} | Score: ${score}/${levelElements.length} | Accuracy: ${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}%`;
-    document.getElementById("lives").textContent = "❤".repeat(lives);
-    timeLeft = config.time;
-
-    document.getElementById("hint-btn").addEventListener("click", () => {
-        showHint();
-        document.getElementById("hint-popup").style.display = "flex";
-    });
-    document.getElementById("close-hint-popup-btn").addEventListener("click", () => {
-        document.getElementById("hint-popup").style.display = "none";
-    });
-    document.getElementById("settings-btn").addEventListener("click", () => {
-        document.getElementById("settings-popup").style.display = "flex";
-    });
-    document.getElementById("close-popup-btn").addEventListener("click", () => {
-        document.getElementById("settings-popup").style.display = "none";
-    });
-    document.getElementById("sound-toggle").addEventListener("change", () => {
-        soundEnabled = document.getElementById("sound-toggle").checked;
-        setCookie("soundEnabled", soundEnabled, 365);
-    });
-    document.getElementById("theme-toggle").addEventListener("change", () => {
-        isDarkTheme = document.getElementById("theme-toggle").checked;
-        document.body.classList.toggle("light-theme", !isDarkTheme);
-        setCookie("theme", isDarkTheme ? "dark" : "light", 365);
-    });
-    document.getElementById("reset-progress-btn").addEventListener("click", () => {
-        setCookie("highestLevel", 1, 365);
-        setCookie("totalScore", 0, 365);
-        location.reload();
-    });
-    document.getElementById("next-level-btn").addEventListener("click", nextLevel);
-    document.getElementById("restart-btn").addEventListener("click", () => location.reload());
-
-    document.getElementById("theme-toggle").checked = isDarkTheme;
-    if (!isDarkTheme) document.body.classList.add("light-theme");
-
-    startTimer();
-
-    // Recompute grid on window resize
-    window.addEventListener('resize', () => {
-        const { columns: newTableCols, rows: newTableRows, cellSize: newTableCellSize } = calculateTableGrid(levelElements.length, periodicTable);
-        periodicTable.style.gridTemplateColumns = `repeat(${newTableCols}, ${newTableCellSize}px)`;
-        periodicTable.style.gridTemplateRows = `repeat(${newTableRows}, ${newTableCellSize}px)`;
-        const { columns: newCardCols, rows: newCardRows, columnWidth: newCardColWidth, rowHeight: newCardRowHeight } = calculateCardGrid(allCards.length, cardArea);
-        cardArea.style.gridTemplateColumns = `repeat(${newCardCols}, ${newCardColWidth}px)`;
-        cardArea.style.gridTemplateRows = `repeat(${newCardRows}, ${newCardRowHeight}px)`;
-    });
+    document.getElementById('level-name').textContent = config.name;
+    document.getElementById('target-score').textContent = config.targetScore;
 }
 
-let draggedElement = null;
-let touchStartX = 0;
-let touchStartY = 0;
-
-function dragStart(e) {
-    if (!gameActive) return;
-    draggedElement = e.target;
-    e.dataTransfer.setData("text", e.target.dataset.atomic);
-    e.target.classList.add("dragging");
+function handleCardClick(card) {
+    if (card.classList.contains('used')) return;
+    if (selectedCard) selectedCard.classList.remove('selected');
+    selectedCard = card;
+    card.classList.add('selected');
 }
 
-function dragOver(e) {
-    e.preventDefault();
-}
+function handleSlotClick(slot) {
+    if (!selectedCard || slot.classList.contains('filled')) return;
+    const cardAtomicNumber = parseInt(selectedCard.dataset.atomicNumber);
+    const slotAtomicNumber = parseInt(slot.dataset.atomicNumber);
 
-function drop(e) {
-    e.preventDefault();
-    if (!gameActive) return;
-    const atomic = e.dataTransfer.getData("text");
-    const slot = e.target;
-    handleDrop(slot, atomic);
-}
-
-function touchStart(e) {
-    if (!gameActive) return;
-    e.preventDefault();
-    draggedElement = e.target;
-    const touch = e.touches[0];
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-    draggedElement.classList.add("dragging");
-}
-
-function touchMove(e) {
-    if (!gameActive || !draggedElement) return;
-    e.preventDefault();
-    const touch = e.touches[0];
-    draggedElement.style.position = "absolute";
-    draggedElement.style.left = `${touch.clientX - draggedElement.offsetWidth / 2}px`;
-    draggedElement.style.top = `${touch.clientY - draggedElement.offsetHeight / 2}px`;
-}
-
-function touchEnd(e) {
-    if (!gameActive || !draggedElement) return;
-    e.preventDefault();
-    const touch = e.changedTouches[0];
-    const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-    draggedElement.style.position = "";
-    draggedElement.style.left = "";
-    draggedElement.style.top = "";
-    draggedElement.classList.remove("dragging");
-
-    if (dropTarget && dropTarget.classList.contains("slot")) {
-        handleDrop(dropTarget, draggedElement.dataset.atomic);
-    }
-    draggedElement = null;
-}
-
-function handleDrop(slot, atomic) {
-    const card = document.querySelector(`.card[data-atomic="${atomic}"]`);
-    totalAttempts++;
-    if (slot.dataset.atomic === atomic) {
-        slot.textContent = card.textContent;
-        slot.classList.add("correct");
-        card.remove();
+    if (cardAtomicNumber === slotAtomicNumber) {
+        slot.classList.add('filled');
+        slot.textContent = selectedCard.textContent;
+        selectedCard.classList.add('used');
+        selectedCard.classList.remove('selected');
         score++;
-        correctAttempts++;
         combo++;
-        totalScore += 10;
-        document.getElementById("stats-display").textContent = `Time: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")} | Score: ${score}/${levelConfig[currentLevel - 1].elements.length} | Accuracy: ${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}%`;
-        if (soundEnabled) correctSound.play();
         if (combo >= 3) {
             score += 2;
-            totalScore += 20;
-            document.getElementById("stats-display").textContent = `Time: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")} | Score: ${score}/${levelConfig[currentLevel - 1].elements.length} | Accuracy: ${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}%`;
+            combo = 0;
         }
-        const config = levelConfig[currentLevel - 1];
-        const targetScore = config.group === "master-challenge-2" ? 118 : config.elements.length;
-        if (score >= targetScore) {
-            gameActive = false;
-            setCookie("highestLevel", Math.max(currentLevel, parseInt(getCookie("highestLevel") || 1)), 365);
-            setCookie("totalScore", totalScore, 365);
-            if (soundEnabled) victorySound.play();
-            const modal = document.getElementById("victory-modal");
-            document.getElementById("modal-title").textContent = config.infinite ? `Round ${infiniteRound + 1} Complete!` : `Level ${currentLevel} Complete!`;
-            document.getElementById("modal-message").textContent = getLevelMessage(currentLevel);
-            modal.style.display = "block";
-            document.getElementById("next-level-btn").textContent = config.infinite ? "Next Round" : "Next Level";
-            document.getElementById("next-level-btn").style.display = "inline-block";
-        }
+        correctSound.play();
+        updateHUD();
+        checkWin();
     } else {
-        slot.classList.add("wrong");
+        slot.classList.add('wrong');
+        setTimeout(() => slot.classList.remove('wrong'), 300);
         lives--;
         combo = 0;
-        document.getElementById("lives").textContent = "❤".repeat(lives);
-        document.getElementById("stats-display").textContent = `Time: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")} | Score: ${score}/${levelConfig[currentLevel - 1].elements.length} | Accuracy: ${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}%`;
-        if (soundEnabled) wrongSound.play();
-        setTimeout(() => slot.classList.remove("wrong"), 300);
-        if (lives <= 0) {
-            gameActive = false;
-            document.getElementById("victory-modal").style.display = "block";
-            document.getElementById("modal-title").textContent = "Game Over!";
-            document.getElementById("modal-message").textContent = "You've run out of lives. Restart to try again!";
-            document.getElementById("next-level-btn").style.display = "none";
-        }
+        wrongSound.play();
+        updateHUD();
+        if (lives === 0) gameOver();
     }
+    selectedCard = null;
 }
 
-function showHint() {
-    if (!gameActive) return;
-    document.querySelectorAll(".slot").forEach(slot => {
-        if (!slot.classList.contains("correct")) {
-            const element = elements.find(el => el.atomic == slot.dataset.atomic);
-            slot.textContent = `${element.atomic} ${element.name} (${element.symbol})`;
-            setTimeout(() => {
-                if (!slot.classList.contains("correct")) {
-                    slot.textContent = levelConfig[currentLevel - 1].hideAtomic ? "" : `${element.atomic} ${element.name} (${element.symbol})`;
-                }
-            }, 5000);
-        }
-    });
+function updateHUD() {
+    document.getElementById('level').textContent = currentLevel;
+    document.getElementById('lives').textContent = '❤'.repeat(lives);
+    document.getElementById('score').textContent = score;
+    document.getElementById('timer').textContent = formatTime(timeLeft);
+}
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${ mins }:${ secs < 10 ? '0' : '' }${ secs }`;
 }
 
 function startTimer() {
-    const timer = setInterval(() => {
-        if (!gameActive) {
-            clearInterval(timer);
-            return;
-        }
+    clearInterval(timer);
+    timer = setInterval(() => {
         timeLeft--;
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        document.getElementById("stats-display").textContent = `Time: ${minutes}:${seconds.toString().padStart(2, "0")} | Score: ${score}/${levelConfig[currentLevel - 1].elements.length} | Accuracy: ${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}%`;
-        if (timeLeft <= 0) {
-            gameActive = false;
-            document.getElementById("victory-modal").style.display = "block";
-            document.getElementById("modal-title").textContent = "Time's Up!";
-            document.getElementById("modal-message").textContent = "You've run out of time. Restart to try again!";
-            document.getElementById("next-level-btn").style.display = "none";
-            clearInterval(timer);
-        }
+        updateHUD();
+        if (timeLeft <= 0) gameOver();
     }, 1000);
 }
 
-function nextLevel() {
-    if (levelConfig[currentLevel - 1].infinite) {
-        infiniteRound++;
-        score = 0;
-        lives = 3;
-        combo = 0;
-        gameActive = true;
-        levelConfig[currentLevel - 1].decoys = Math.min(levelConfig[currentLevel - 1].decoys + 1, 5);
-        levelConfig[currentLevel - 1].time = Math.max(levelConfig[currentLevel - 1].time - 10, 60);
-        document.getElementById("victory-modal").style.display = "none";
-        initGame();
-    } else if (currentLevel < levelConfig.length) {
-        currentLevel++;
-        score = 0;
-        lives = 3;
-        combo = 0;
-        gameActive = true;
-        infiniteRound = 0;
-        document.getElementById("victory-modal").style.display = "none";
-        initGame();
+function checkWin() {
+    const config = levelConfigs[currentLevel - 1];
+    if (score >= config.targetScore) {
+        clearInterval(timer);
+        victorySound.play();
+        const modal = document.getElementById('victory-modal');
+        document.getElementById('victory-level').textContent = currentLevel;
+        document.getElementById('victory-title').textContent = getTitle(currentLevel);
+        modal.classList.remove('hidden');
+        document.getElementById('next-level-btn').addEventListener('click', () => {
+            modal.classList.add('hidden');
+            currentLevel++;
+            if (currentLevel <= levelConfigs.length) {
+                startLevel(currentLevel);
+            } else {
+                alert('Congratulations! You’ve mastered the Periodic Table!');
+                currentLevel = 1;
+                startLevel(1);
+            }
+        }, { once: true });
     }
 }
 
-function getRandomElements(count) {
-    const shuffled = elements.sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, count);
+function gameOver() {
+    clearInterval(timer);
+    alert('Game Over! Try again.');
+    startLevel(currentLevel);
 }
 
-function getRandomDecoys(count) {
-    const available = elements.filter(e => !levelConfig[currentLevel - 1].elements.includes(e.atomic));
-    return available.sort(() => Math.random() - 0.5).slice(0, count);
+function getTitle(level) {
+    if (level === 1) return 'Beginner';
+    if (level === 2) return 'Element Explorer';
+    if (level === 3) return 'Transition Titan';
+    if (level === 4) return 'Rare Element Ranger';
+    return 'Periodic Master';
 }
 
-function getLevelMessage(level) {
-    const messages = [
-        "Alkali Apprentice!", "Alkali Adept!", "Alkali Master!", "Alkaline Beginner!", "Alkaline Pro!", "Alkaline Expert!",
-        "Transition Novice!", "Transition Specialist!", "Transition Pro!", "Transition Master!", "Transition Guru!", "Transition Legend!",
-        "Transition Elite!", "Transition Champion!", "Post-Transition Starter!", "Post-Transition Pro!", "Post-Transition Expert!",
-        "Metalloid Novice!", "Metalloid Master!", "Non-Metal Beginner!", "Non-Metal Pro!", "Hydrogen Hero!", "Hydrogen Legend!",
-        "Halogen Starter!", "Halogen Master!", "Noble Gas Novice!", "Noble Gas Champion!", "Lanthanide Learner!", "Lanthanide Pro!",
-        "Lanthanide Master!", "Lanthanide Legend!", "Actinide Apprentice!", "Actinide Adept!", "Actinide Expert!", "Actinide Master!",
-        "Mixed Element Starter!", "Mixed Element Pro!", "Mixed Element Master!", "Mixed Element Legend!", "Mixed Element Guru!",
-        "Mixed Element Champion!", "Mixed Element Elite!", "Mixed Element Overlord!", "Mixed Element Supreme!", "Mixed Element Sovereign!",
-        "Mixed Element Emperor!", "Mixed Element God!", "Master Chemist!", "Periodic Table Conqueror!", "Infinite Chemistry Legend!"
-    ];
-    return messages[level - 1] || "Level Complete!";
-}
-
-function setCookie(name, value, days) {
-    let expires = "";
-    if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + value + expires + "; path=/";
-}
-
-function getCookie(name) {
-    const nameEQ = name + "=";
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-}
+document.getElementById('hint-btn').addEventListener('click', () => {
+    if (hintUsed) return;
+    hintUsed = true;
+    const slots = document.querySelectorAll('.slot:not(.filled)');
+    const randomSlot = slots[Math.floor(Math.random() * slots.length)];
+    const element = elements.find(e => e.atomicNumber == randomSlot.dataset.atomicNumber);
+    randomSlot.textContent = element.symbol;
+    setTimeout(() => {
+        if (!randomSlot.classList.contains('filled')) {
+            randomSlot.textContent = levelConfigs[currentLevel - 1].showAtomicNumber ? randomSlot.dataset.atomicNumber : '?';
+        }
+    }, 5000);
+});
 
 initGame();
