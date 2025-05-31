@@ -27,7 +27,7 @@ const elements = [
     { atomic: 26, symbol: "Fe", name: "Iron", group: "transition-metal" },
     { atomic: 27, symbol: "Co", name: "Cobalt", group: "transition-metal" },
     { atomic: 28, symbol: "Ni", name: "Nickel", group: "transition-metal" },
-    { atomic: 29, symbol: "Cu", name: "Copperyses", group: "transition-metal" },
+    { atomic: 29, symbol: "Cu", name: "Copper", group: "transition-metal" },
     { atomic: 30, symbol: "Zn", name: "Zinc", group: "transition-metal" },
     { atomic: 31, symbol: "Ga", name: "Gallium", group: "post-transition-metal" },
     { atomic: 32, symbol: "Ge", name: "Germanium", group: "metalloid" },
@@ -199,8 +199,9 @@ function initGame() {
     periodicTable.innerHTML = "";
     cardArea.innerHTML = "";
 
-    periodicTable.style.gridTemplateColumns = `repeat(${config.grid.split("x")[0]}, 1fr)`;
-    cardArea.style.gridTemplateColumns = `repeat(${config.grid.split("x")[0]}, 1fr)`;
+    const [cols, rows] = config.grid.split("x").map(Number);
+    periodicTable.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    cardArea.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
     let levelElements = config.infinite && infiniteRound > 0 ? getRandomElements(20) : config.group === "master-challenge-2" ? getRandomElements(118) : elements.filter(e => config.elements.includes(e.atomic));
     const decoyElements = config.infinite && infiniteRound > 0 ? getRandomDecoys(config.decoys) : elements.filter(e => !config.elements.includes(e.atomic)).slice(0, config.decoys);
@@ -239,11 +240,8 @@ function initGame() {
     });
 
     document.getElementById("level-display").textContent = config.infinite ? `Level ${currentLevel} (Round ${infiniteRound + 1})` : `Level ${currentLevel}`;
-    document.getElementById("max-score").textContent = levelElements.length;
-    document.getElementById("score").textContent = score;
+    document.getElementById("stats-display").textContent = `Time: ${Math.floor(config.time / 60)}:${(config.time % 60).toString().padStart(2, "0")} | Score: ${score}/${levelElements.length} | Accuracy: ${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}%`;
     document.getElementById("lives").textContent = "❤".repeat(lives);
-    document.getElementById("accuracy").textContent = totalAttempts > 0 ? `${Math.round((correctAttempts / totalAttempts) * 100)}%` : "0%";
-    document.getElementById("timer").textContent = `${Math.floor(config.time / 60)}:${(config.time % 60).toString().padStart(2, "0")}`;
     timeLeft = config.time;
 
     document.getElementById("hint-btn").addEventListener("click", () => {
@@ -351,13 +349,12 @@ function handleDrop(slot, atomic) {
         correctAttempts++;
         combo++;
         totalScore += 10;
-        document.getElementById("score").textContent = score;
-        document.getElementById("accuracy").textContent = `${Math.round((correctAttempts / totalAttempts) * 100)}%`;
+        document.getElementById("stats-display").textContent = `Time: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")} | Score: ${score}/${levelConfig[currentLevel - 1].elements.length} | Accuracy: ${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}%`;
         if (soundEnabled) correctSound.play();
         if (combo >= 3) {
             score += 2;
             totalScore += 20;
-            document.getElementById("score").textContent = score;
+            document.getElementById("stats-display").textContent = `Time: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")} | Score: ${score}/${levelConfig[currentLevel - 1].elements.length} | Accuracy: ${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}%`;
         }
         const config = levelConfig[currentLevel - 1];
         const targetScore = config.group === "master-challenge-2" ? 118 : config.elements.length;
@@ -378,7 +375,7 @@ function handleDrop(slot, atomic) {
         lives--;
         combo = 0;
         document.getElementById("lives").textContent = "❤".repeat(lives);
-        document.getElementById("accuracy").textContent = `${Math.round((correctAttempts / totalAttempts) * 100)}%`;
+        document.getElementById("stats-display").textContent = `Time: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, "0")} | Score: ${score}/${levelConfig[currentLevel - 1].elements.length} | Accuracy: ${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}%`;
         if (soundEnabled) wrongSound.play();
         setTimeout(() => slot.classList.remove("wrong"), 300);
         if (lives <= 0) {
@@ -415,7 +412,7 @@ function startTimer() {
         timeLeft--;
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
-        document.getElementById("timer").textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+        document.getElementById("stats-display").textContent = `Time: ${minutes}:${seconds.toString().padStart(2, "0")} | Score: ${score}/${levelConfig[currentLevel - 1].elements.length} | Accuracy: ${totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0}%`;
         if (timeLeft <= 0) {
             gameActive = false;
             document.getElementById("victory-modal").style.display = "block";
