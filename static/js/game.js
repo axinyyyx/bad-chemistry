@@ -192,6 +192,25 @@ const correctSound = new Howl({ src: ['sounds/correct.mp3'], onloaderror: () => 
 const wrongSound = new Howl({ src: ['sounds/wrong.mp3'], onloaderror: () => console.log("Wrong sound failed to load") });
 const victorySound = new Howl({ src: ['sounds/victory.mp3'], onloaderror: () => console.log("Victory sound failed to load") });
 
+function calculateGrid(itemCount) {
+    const screenWidth = window.innerWidth;
+    let columns;
+
+    if (screenWidth <= 600) {
+        // For phones, limit to fewer columns to prevent overflow
+        columns = Math.min(itemCount, Math.floor(screenWidth / 60)); // 60px per slot/card
+        columns = Math.max(2, columns); // Ensure at least 2 columns
+    } else {
+        // For larger screens, use the default grid or adjust based on item count
+        const [defaultCols] = levelConfig[currentLevel - 1].grid.split("x").map(Number);
+        columns = Math.min(defaultCols, Math.floor(screenWidth / 80)); // 80px per slot/card
+        columns = Math.max(3, columns); // Ensure at least 3 columns
+    }
+
+    const rows = Math.ceil(itemCount / columns);
+    return { columns, rows };
+}
+
 function initGame() {
     const config = levelConfig[currentLevel - 1];
     const periodicTable = document.getElementById("periodic-table");
@@ -199,13 +218,17 @@ function initGame() {
     periodicTable.innerHTML = "";
     cardArea.innerHTML = "";
 
-    const [cols, rows] = config.grid.split("x").map(Number);
-    periodicTable.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-    cardArea.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-
     let levelElements = config.infinite && infiniteRound > 0 ? getRandomElements(20) : config.group === "master-challenge-2" ? getRandomElements(118) : elements.filter(e => config.elements.includes(e.atomic));
     const decoyElements = config.infinite && infiniteRound > 0 ? getRandomDecoys(config.decoys) : elements.filter(e => !config.elements.includes(e.atomic)).slice(0, config.decoys);
     const allCards = [...levelElements, ...decoyElements].sort(() => Math.random() - 0.5);
+
+    // Calculate grid for periodic table
+    const { columns: tableCols } = calculateGrid(levelElements.length);
+    periodicTable.style.gridTemplateColumns = `repeat(${tableCols}, 1fr)`;
+
+    // Calculate grid for card area
+    const { columns: cardCols } = calculateGrid(allCards.length);
+    cardArea.style.gridTemplateColumns = `repeat(${cardCols}, 1fr)`;
 
     levelElements.forEach(element => {
         const slot = document.createElement("div");
@@ -278,6 +301,14 @@ function initGame() {
     if (!isDarkTheme) document.body.classList.add("light-theme");
 
     startTimer();
+
+    // Recompute grid on window resize
+    window.addEventListener('resize', () => {
+        const { columns: newTableCols } = calculateGrid(levelElements.length);
+        periodicTable.style.gridTemplateColumns = `repeat(${newTableCols}, 1fr)`;
+        const { columns: newCardCols } = calculateGrid(allCards.length);
+        cardArea.style.gridTemplateColumns = `repeat(${newCardCols}, 1fr)`;
+    });
 }
 
 let draggedElement = null;
