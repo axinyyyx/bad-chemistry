@@ -45,6 +45,11 @@ header h1 {
     margin: 8px 0;
 }
 
+#developer-link {
+    text-decoration: none;
+    color: #fff;
+}
+
 .developer img {
     width: 36px;
     height: 36px;
