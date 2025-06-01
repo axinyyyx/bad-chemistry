@@ -128,12 +128,23 @@ const levelConfigs = [
     { name: "Infinity", elements: elements, targetScore: 30, decoys: 5, showAtomicNumber: false, subLevels: Infinity, quizQuestions: 10 }
 ];
 
+const mnemonics = {
+    'alkali-metal': 'LiNa K RbCsFr (Little Nasty Kids Rub Cats Fur)',
+    'alkaline-earth-metal': 'BeMgCa SrBaRa (Beryllium Magnesium Calcium Strontium Barium Radium)',
+    'transition-metal': 'ScTiVCrMnFeCoNiCuZn (Scary Tigers Vanquish Chromium, Manganese, Ferocious Cobalt, Nickel, Copper, Zinc)',
+    'post-transition-metal': 'AlGaInSnTlPbBi (Aluminum Gallium Indium Tin Thallium Lead Bismuth)',
+    'metalloid': 'BSiGeAsSbTeAt (Boron Silicon Germanium Arsenic Antimony Tellurium Astatine)',
+    'non-metal': 'HCNOFPSClBrI (Hydrogen Carbon Nitrogen Oxygen Fluorine Phosphorus Sulfur Chlorine Bromine Iodine)',
+    'noble-gas': 'HeNeArKrXeRn (Hi Neha, Are Krishan X-Ray Ready)',
+    'lanthanide': 'LaCePrNdPmSmEuGdTbDyHoErTmYbLu (Lanthanum Cerium Praseodymium Neodymium Promethium Samarium Europium Gadolinium Terbium Dysprosium Holmium Erbium Thulium Ytterbium Lutetium)',
+    'actinide': 'AcThPaUNpPuAmCmBkCfEsFmMdNoLr (Actinium Thorium Protactinium Uranium Neptunium Plutonium Americium Curium Berkelium Californium Einsteinium Fermium Mendelevium Nobelium Lawrencium)'
+};
+
 let currentLevel = parseInt(localStorage.getItem('periodicGameCurrentLevel')) || 1;
 let currentSubLevel = parseInt(localStorage.getItem('periodicGameCurrentSubLevel')) || 1;
 let lives = 3;
 let score = 0;
 let streak = 0;
-let hintsAvailable = 0;
 let selectedCard = null;
 let timer;
 let timeLeft = 120;
@@ -317,9 +328,9 @@ function displayPeriodicTable(category) {
     mainTable.style.gridTemplateColumns = `repeat(18, 60px)`;
     lanthanideActinideTable.style.gridTemplateColumns = `repeat(15, 60px)`;
 
-    if (category === 'noble-gas') {
+    if (category !== 'all' && mnemonics[category]) {
         mnemonicDisplay.classList.remove('hidden');
-        mnemonicDisplay.textContent = 'Mnemonic: Hi Neha, Are Krishan X-Ray Ready (He, Ne, Ar, Kr, Xe, Rn)';
+        mnemonicDisplay.textContent = `Mnemonic: ${mnemonics[category]}`;
     } else {
         mnemonicDisplay.classList.add('hidden');
     }
@@ -561,7 +572,6 @@ function startLevel(level, subLevel) {
     lives = 3;
     score = 0;
     streak = 0;
-    hintsAvailable = 0;
     timeLeft = 120;
     selectedCard = null;
     activeCards = [];
@@ -639,7 +649,11 @@ function handleCardClick(card) {
 }
 
 function handleSlotClick(slot, element) {
-    if (!selectedCard || slot.classList.contains('filled')) return;
+    if (slot.classList.contains('filled')) {
+        showElementDetails(element);
+        return;
+    }
+    if (!selectedCard) return;
     const cardAtomicNumber = parseInt(selectedCard.dataset.atomicNumber);
     const slotAtomicNumber = parseInt(slot.dataset.atomicNumber);
 
@@ -655,10 +669,6 @@ function handleSlotClick(slot, element) {
         if (streak >= 3) {
             score += 2;
             showBonusMessage('+2 Streak Bonus!');
-        }
-        if (streak >= 5) {
-            hintsAvailable++;
-            showBonusMessage('Hint Unlocked!');
         }
         if (soundEnabled) correctSound.play();
         showElementDetails(element);
@@ -747,6 +757,7 @@ function updateHUD() {
     document.getElementById('lives').textContent = '❤'.repeat(lives);
     document.getElementById('score').textContent = score;
     document.getElementById('timer').textContent = formatTime(timeLeft);
+    document.getElementById('hint-btn').style.display = 'none'; // Hide hint button
 }
 
 function formatTime(seconds) {
