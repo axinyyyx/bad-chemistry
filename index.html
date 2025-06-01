@@ -20,7 +20,6 @@
 
         <!-- Game HUD -->
         <div id="hud">
-            <span>Level: <span id="level">1</span> (<span id="level-name">Beginner</span>)</span>
             <span>Sub-Level: <span id="sub-level">1</span></span>
             <span>Accuracy: <span id="accuracy">0%</span></span>
             <span>Lives: <span id="lives">❤❤❤</span></span>
@@ -39,9 +38,11 @@
         <!-- Victory Modal -->
         <div id="victory-modal" class="modal hidden">
             <div class="modal-content">
-                <h2>Level <span id="victory-level"></span> Complete!</h2>
-                <p>You're now an Elemental <span id="victory-title">Beginner</span>!</p>
-                <button id="next-level-btn">Next Level</button>
+                <h2 id="victory-title"></h2>
+                <p>Accuracy: <span id="victory-accuracy">0%</span></p>
+                <button id="next-sub-level-btn">Next Sub-Level</button>
+                <button id="prev-sub-level-btn" class="hidden">Previous Sub-Level</button>
+                <button id="next-level-btn" class="hidden">Next Level</button>
             </div>
         </div>
 
@@ -49,18 +50,19 @@
         <div id="instructions-modal" class="modal hidden">
             <div class="modal-content">
                 <h2>How to Play</h2>
-                <p>Welcome to the Bad Chemistry! Learn all 118 elements by matching their symbols to their correct positions.</p>
+                <p>Welcome to Bad Chemistry! Learn all 118 elements by matching their symbols to their correct positions.</p>
                 <ul>
-                    <li><strong>Objective:</strong> Click an element card (showing the symbol, e.g., "H") and then click the correct slot in the periodic table (showing the atomic number or "?").</li>
+                    <li><strong>Objective:</strong> Click an element card (showing the symbol, e.g., "H") and then click the correct slot in the periodic table (showing "?"). Hover on cards to see element names briefly.</li>
                     <li><strong>Lives:</strong> You have 3 lives. A wrong placement costs 1 life.</li>
                     <li><strong>Score:</strong> Earn 1 point per correct placement. Get 3 correct placements in a row for a +2 combo bonus!</li>
-                    <li><strong>Accuracy:</strong> Achieve 100% accuracy in each level to unlock the next. Accuracy is based on correct placements without errors.</li>
-                    <li><strong>Hint:</strong> Click the 💡 Hint button to reveal a symbol for 5 seconds (once per sub-level).</li>
+                    <li><strong>Accuracy:</strong> Achieve high accuracy to unlock levels. Accuracy is based on correct placements.</li>
+                    <li><strong>Hint:</strong> Earn hints by maintaining a streak of 5 correct answers. Hints reveal a symbol for 5 seconds.</li>
                     <li><strong>Timer:</strong> Complete each sub-level within 2 minutes.</li>
-                    <li><strong>Settings:</strong> Click the ⚙️ Settings button to toggle sound, reset levels, view instructions, or select previous levels.</li>
+                    <li><strong>Settings:</strong> Toggle sound, theme, reset levels, view instructions, select levels, view the periodic table, or start a quiz.</li>
                     <li><strong>Levels:</strong>
                         <ul>
                             <li>Level 1: Beginner (First 20 elements, multiple sub-levels).</li>
+                            Ascending (not sorted) list
                             <li>Level 2: Explorer (Metals and Non-Metals).</li>
                             <li>Level 3: Pro (Transition Metals).</li>
                             <li>Level 4: Mastermind (Rare Earths and Noble Gases).</li>
@@ -68,6 +70,7 @@
                             <li>Level 6: Infinity (Full periodic table).</li>
                         </ul>
                     </li>
+                    <li><strong>Quiz Mode:</strong> Test your knowledge with infinite questions on elements!</li>
                 </ul>
                 <button id="start-game-btn">Start Game</button>
             </div>
@@ -78,11 +81,18 @@
             <div class="modal-content">
                 <h2>Settings</h2>
                 <button id="show-instructions-btn">How to Play</button>
+                <button id="periodic-table-btn">Periodic Table</button>
+                <button id="quiz-mode-btn">Quiz Mode</button>
                 <div>
                     <label for="sound-toggle">Sound Effects: </label>
                     <input type="checkbox" id="sound-toggle" checked>
                 </div>
                 <div>
+                    <label for="theme-toggle">Theme: </label>
+                    <input type="checkbox" id="theme-toggle" checked>
+                    <span id="theme-label">Dark Mode</span>
+                </div>
+                <div class="level-select-wrapper">
                     <label for="level-select">Select Level: </label>
                     <select id="level-select">
                         <option value="1">Level 1: Beginner</option>
@@ -90,6 +100,56 @@
                 </div>
                 <button id="reset-levels-btn">Reset Levels</button>
                 <button id="close-settings-btn">Close</button>
+            </div>
+        </div>
+
+        <!-- Periodic Table Modal -->
+        <div id="periodic-table-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Periodic Table</h2>
+                <div>
+                    <label for="category-select">Filter by Category: </label>
+                    <select id="category-select">
+                        <option value="all">All Elements</option>
+                        <option value="alkali-metal">Alkali Metals</option>
+                        <option value="alkaline-earth-metal">Alkaline Earth Metals</option>
+                        <option value="transition-metal">Transition Metals</option>
+                        <option value="post-transition-metal">Post-Transition Metals</option>
+                        <option value="metalloid">Metalloids</option>
+                        <option value="non-metal">Non-Metals</option>
+                        <option value="noble-gas">Noble Gases</option>
+                        <option value="lanthanide">Lanthanides</option>
+                        <option value="actinide">Actinides</option>
+                    </select>
+                </div>
+                <div id="mnemonic-display" class="hidden"></div>
+                <div id="full-periodic-table"></div>
+                <div id="lanthanide-actinide-table"></div>
+                <button id="close-table-btn">Close</button>
+            </div>
+        </div>
+
+        <!-- Quiz Mode Modal -->
+        <div id="quiz-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Quiz Mode</h2>
+                <p id="quiz-question"></p>
+                <div id="quiz-options"></div>
+                <p>Quiz Accuracy: <span id="quiz-accuracy">0%</span></p>
+                <button id="next-quiz-btn">Next Question</button>
+                <button id="quiz-results-btn">View Results</button>
+                <button id="close-quiz-btn">Close</button>
+            </div>
+        </div>
+
+        <!-- Quiz Results Modal -->
+        <div id="quiz-results-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Quiz Results</h2>
+                <p>Total Questions: <span id="quiz-total">0</span></p>
+                <p>Correct Answers: <span id="quiz-correct">0</span></p>
+                <p>Accuracy: <span id="quiz-accuracy-result">0%</span></p>
+                <button id="close-results-btn">Close</button>
             </div>
         </div>
     </div>
