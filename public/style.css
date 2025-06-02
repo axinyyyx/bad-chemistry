@@ -1,0 +1,191 @@
+/* Table styling */
+table {
+    height: 90%;
+    width: 100%;
+    box-shadow: 0px 0px 25px 7px #D4EBF8;
+    border-radius: 25px;
+    padding: 2%;
+    background-color: lightblue;
+}
+
+.yes,.yes_row td{
+    border: 2px solid black;
+}
+
+/* Text align and zoom effect and glow on hover and active colour change*/
+td {  
+    width: 20px;
+    text-align: center;
+    transition: transform .2s; /* Animation */
+    margin: 10px;
+    border-radius: 5px;
+    user-select: none;
+}
+
+.yes_row td:hover,.yes:hover{
+    transform: scale(1.5);
+    box-shadow: 0px 0px 5px 2px whitesmoke;
+}
+
+.yes_row td:active,.yes:active,#La td:active,#Ac td:active{
+  background-color: whitesmoke;
+}
+
+#lanthanoids:hover,#actinoids:hover{
+  transition: none ;
+  transform: none;
+  box-shadow: none;
+}
+
+/* General styles */
+
+main{
+  padding: 7%;
+  margin: 0%;
+}
+
+html,body{
+  margin: 0;
+  padding: 0;
+  background-image: url("../assets/bg1.jpg") ;
+  background-repeat: repeat;
+  background-size: cover;
+  padding-bottom: 0;
+}
+
+/* Info line */
+#info{
+  text-align: center;
+  color: lightblue;
+  font-size: 20px;
+  text-shadow:0 0 6px #D4EBF8;
+  font-weight: 800;
+}
+
+/* Periodic Table heading */
+h1 {
+    user-select: none;
+    margin: 0;
+    padding-bottom: 3%;
+    color: lightblue;
+    text-shadow: 0 0 6px #D4EBF8;
+    text-align: center;
+    font-size: 80px;
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Row 0 elements (IA,IIA,etc.) */
+#row0 td {
+    font-weight: 900;
+}
+
+/* f-block table */
+#f-block{
+    padding: 8%;
+}
+
+/* To set the color of in-table text and remove underline of hyperlink  */
+a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+table tr td{
+    font-size: 23px;
+    height: 50px;
+    width: 50px;
+}
+table tr td div{
+    font-size: 18px;
+}
+
+/* Atomic number in the table */
+.at_no{
+    text-align: right;
+    color: black;
+}
+
+/* Name of blocks  */
+.title{
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px grey;
+}
+
+  /* table box color */
+.other_non_metals{
+  background-color:#21ed1a;
+}
+
+.alkali_metals{
+  background-color: orangered;
+}
+
+.alkaline_earth_metals{
+  background-color: gold;
+}
+
+.transition_metals{
+  background-color: lightcoral;
+}
+
+#lanthanoids,#La td{
+  background-color: lightsalmon;
+}
+
+#actinoids,#Ac td{
+  background-color: #d966ff;
+}
+
+.post_transition_metals{
+  background-color: lightgrey;
+}
+
+.metalloids{
+  background-color: #0dd9d9;
+}
+
+.halogens{
+  background-color: #66ffff;
+}
+
+.noble_gas{
+  background-color: #4d94ff;
+}
+
+/* Navigation Bar (footer) */
+
+footer {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color:  #1e3d59;
+  color: white;
+  text-align: center;
+  padding: 0.5rem 0;
+}
+
+footer nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+footer nav ul li {
+  margin: 0 1rem;
+}
+
+footer nav ul li a {
+  color: white;
+  text-decoration: none;
+  user-select: none;
+}
+
+footer nav ul li a:hover {
+  text-decoration: underline;
+}
