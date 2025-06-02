@@ -260,8 +260,7 @@ function setupSettings() {
 
     periodicTableBtn.addEventListener('click', () => {
         settingsModal.classList.add('hidden');
-        document.getElementById('periodic-table-modal').classList.remove('hidden');
-        displayPeriodicTable('all');
+        window.location.href = './public/pd.html'; // Redirect to pd.html
     });
 
     quizModeBtn.addEventListener('click', () => {
