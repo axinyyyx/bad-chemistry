@@ -9,30 +9,18 @@
 html, body {
   margin: 0;
   padding: 0;
+  background-image: url("../assets/bg1.jpg");
+  background-repeat: repeat;
+  background-size: cover;
   min-height: 100vh;
   font-family: Arial, sans-serif;
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* Canvas for animated chemical bonds */
-#chemicalBondsCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: linear-gradient(135deg, #1e3d59 0%, #2a6a8f 100%);
 }
 
 /* Main container */
 main {
-  padding: 7% 2%;
+  padding: 7% 2%; /* Adjusted to account for fixed header */
   margin: 0;
-  min-height: calc(100vh - 60px);
-  position: relative;
-  z-index: 1;
+  min-height: calc(100vh - 40px); /* Adjust for fixed header height */
 }
 
 /* Periodic Table heading */
@@ -43,16 +31,17 @@ h1 {
   color: lightblue;
   text-shadow: 0 0 6px #D4EBF8;
   text-align: center;
-  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-size: 80px; /* Original fixed size */
   font-family: "Anton", sans-serif;
   font-weight: 400;
+  font-style: normal;
 }
 
 /* Info line */
 #info {
   text-align: center;
   color: lightblue;
-  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-size: 20px; /* Original size */
   text-shadow: 0 0 6px #D4EBF8;
   font-weight: 800;
   margin-top: 1rem;
@@ -61,12 +50,12 @@ h1 {
 /* Table styling */
 table {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1200px; /* Prevent table from becoming too wide */
   margin: 0 auto;
   box-shadow: 0px 0px 25px 7px #D4EBF8;
   border-radius: 25px;
   padding: 2%;
-  background-color: rgba(173, 216, 230, 0.9);
+  background-color: lightblue;
   border-collapse: collapse;
 }
 
@@ -74,20 +63,20 @@ table {
 .yes, .yes_row td {
   border: 2px solid black;
   text-align: center;
-  transition: transform 0.2s;
+  transition: transform 0.2s; /* Animation */
   border-radius: 5px;
   user-select: none;
 }
 
 table tr td {
-  font-size: clamp(0.8rem, 2.5vw, 1.2rem);
-  height: clamp(2rem, 4vw, 3rem);
-  width: 5.5%;
-  min-width: 40px;
+  font-size: 1.2rem; /* Responsive font size */
+  height: 3rem;
+  width: 5.5%; /* Relative width */
+  min-width: 40px; /* Minimum width for small screens */
 }
 
 table tr td div {
-  font-size: clamp(0.6rem, 2vw, 0.9rem);
+  font-size: 0.9rem; /* Responsive atomic number size */
 }
 
 /* Atomic number */
@@ -101,13 +90,13 @@ table tr td div {
   text-align: center;
   font-weight: bold;
   text-shadow: 1px 1px 1px grey;
-  font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+  font-size: 1.1rem;
 }
 
 /* Row 0 (IA, IIA, etc.) */
 #row0 td {
   font-weight: 900;
-  font-size: clamp(0.7rem, 2vw, 1rem);
+  font-size: 1rem;
 }
 
 /* f-block table */
@@ -121,13 +110,13 @@ a {
   text-decoration: none;
   color: black;
   font-weight: bold;
-  display: block;
+  display: block; /* Ensures entire cell is clickable */
 }
 
 /* Hover effects for non-touch devices */
 @media (hover: hover) {
   .yes_row td:hover, .yes:hover {
-    transform: scale(1.1);
+    transform: scale(1.2); /* Slightly reduced scale for smaller screens */
     box-shadow: 0px 0px 5px 2px whitesmoke;
   }
 }
@@ -143,18 +132,47 @@ a {
 }
 
 /* Table box colors */
-.other_non_metals { background-color: #21ed1a; }
-.alkali_metals { background-color: orangered; }
-.alkaline_earth_metals { background-color: gold; }
-.transition_metals { background-color: lightcoral; }
-#lanthanoids, #La td { background-color: lightsalmon; }
-#actinoids, #Ac td { background-color: #d966ff; }
-.post_transition_metals { background-color: lightgrey; }
-.metalloids { background-color: #0dd9d9; }
-.halogens { background-color: #66ffff; }
-.noble_gas { background-color: #4d94ff; }
+.other_non_metals {
+  background-color: #21ed1a;
+}
 
-/* Navigation Bar (footer) */
+.alkali_metals {
+  background-color: orangered;
+}
+
+.alkaline_earth_metals {
+  background-color: gold;
+}
+
+.transition_metals {
+  background-color: lightcoral;
+}
+
+#lanthanoids, #La td {
+  background-color: lightsalmon;
+}
+
+#actinoids, #Ac td {
+  background-color: #d966ff;
+}
+
+.post_transition_metals {
+  background-color: lightgrey;
+}
+
+.metalloids {
+  background-color: #0dd9d9;
+}
+
+.halogens {
+  background-color: #66ffff;
+}
+
+.noble_gas {
+  background-color: #4d94ff;
+}
+
+/* Navigation Bar (footer) - Original styles preserved */
 footer {
   position: fixed;
   top: 0;
@@ -163,61 +181,40 @@ footer {
   color: white;
   text-align: center;
   padding: 0.5rem 0;
-  z-index: 2;
 }
 
-.bottom-nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.nav-links {
+footer nav ul {
   list-style-type: none;
   padding: 0;
   display: flex;
+  justify-content: center;
   margin: 0;
 }
 
-.nav-links li {
+footer nav ul li {
   margin: 0 1rem;
 }
 
-.nav-links li a {
+footer nav ul li a {
   color: white;
   text-decoration: none;
-  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   user-select: none;
 }
 
-.nav-links li a:hover {
+footer nav ul li a:hover {
   text-decoration: underline;
 }
 
-/* Hamburger menu */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  padding: 0.5rem;
-}
-
-.hamburger span {
-  width: 25px;
-  height: 3px;
-  background-color: white;
-  margin: 2px 0;
-  transition: all 0.3s ease;
-}
-
-/* Responsive adjustments */
+/* Responsive adjustments for periodic table */
 @media (max-width: 768px) {
+  /* Make table scrollable horizontally on small screens */
   table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
   }
 
+  /* Adjust table cell sizes */
   table tr td {
     font-size: 0.9rem;
     height: 2.5rem;
@@ -229,39 +226,19 @@ footer {
     font-size: 0.7rem;
   }
 
+  /* Reduce f-block padding */
   #f-block {
     padding: 2%;
   }
 
+  /* Adjust main padding to prevent overlap with fixed header */
   main {
     padding-top: 10%;
-  }
-
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    background-color: #1e3d59;
-    padding: 1rem 0;
-  }
-
-  .nav-links.active {
-    display: flex;
-  }
-
-  .hamburger {
-    display: flex;
-  }
-
-  .nav-links li {
-    margin: 0.5rem 0;
   }
 }
 
 @media (max-width: 480px) {
+  /* Further reduce cell sizes for very small screens */
   table tr td {
     font-size: 0.8rem;
     height: 2rem;
@@ -273,15 +250,8 @@ footer {
     font-size: 0.6rem;
   }
 
+  /* Adjust main padding */
   main {
     padding: 12% 2%;
-  }
-
-  h1 {
-    font-size: clamp(2rem, 6vw, 3rem);
-  }
-
-  #info {
-    font-size: clamp(0.8rem, 2.5vw, 1rem);
   }
 }
