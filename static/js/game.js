@@ -260,7 +260,7 @@ function setupSettings() {
 
     periodicTableBtn.addEventListener('click', () => {
         settingsModal.classList.add('hidden');
-        window.location.href = 'pt.html'; // Redirect to pt.html
+        window.location.href = 'pt'; // Redirect to pt.html
     });
 
     quizModeBtn.addEventListener('click', () => {
