@@ -1,0 +1,492 @@
+body {
+  background-color: #0a192f;
+  color: #e6f1ff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  touch-action: manipulation; /* Prevent unwanted touch behaviors */
+}
+
+.game-container {
+  max-width: 96vw;
+  padding: 2vw 4vw;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2vw;
+  margin-bottom: 2vw;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 3vw;
+  flex: 1;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  flex-wrap: wrap;
+}
+
+.game-title {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: bold;
+  color: #64ffda;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: start;
+  gap: 2vw;
+  flex-wrap: wrap;
+}
+
+.score-display,
+.level-display,
+.timer-display {
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  font-weight: bold;
+  color: #64ffda;
+  background-color: #112240;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  min-width: 80px;
+  text-align: center;
+}
+
+.elements-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5vw;
+  padding: 1rem 0;
+  min-height: 3rem;
+}
+
+.element-box {
+  color: #e6f1ff;
+  width: clamp(40px, 4vw, 44px);
+  height: clamp(40px, 4vw, 44px);
+  border: 1px solid #333;
+  padding: 0.3rem;
+  display: grid;
+  grid-template-rows: 20% 40% 20% 20%;
+  cursor: move;
+  user-select: none;
+  background-color: #f0f0f05e;
+  border-radius: 5px;
+  transition: transform 150ms ease-in;
+  touch-action: none;
+  -webkit-user-drag: element; /* Improve drag on mobile */
+}
+
+.element-box:hover {
+  transform: scale(1.5);
+  z-index: 1;
+  background-color: #f0f0f0ab;
+}
+
+.drop-zone .element-box:hover {
+  transform: none;
+  background: unset;
+}
+
+.element-box .atomic-number {
+  font-size: clamp(8px, 1.5vw, 10px);
+  text-align: left;
+  align-self: start;
+}
+
+.element-box .symbol {
+  font-size: clamp(12px, 2vw, 14px);
+  font-weight: bold;
+  text-align: center;
+  align-self: center;
+}
+
+.element-box .name {
+  font-size: clamp(8px, 1.5vw, 10px);
+  text-align: center;
+  align-self: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.element-box:hover .name {
+  font-size: clamp(6px, 1.2vw, 8px);
+}
+
+.element-box .mass {
+  font-size: clamp(6px, 1.2vw, 8px);
+  text-align: center;
+  align-self: center;
+}
+
+.element-box.dragging {
+  opacity: 0.5;
+  z-index: 1000; /* Ensure dragged element is on top */
+}
+
+.element-box.shake {
+  animation: shake 0.2s;
+}
+
+.periodic-table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vw;
+  padding: 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+}
+
+.periodic-grid {
+  display: grid;
+  grid-template-columns: repeat(18, clamp(40px, 4.5vw, 50px));
+  gap: 0.5vw;
+  width: max-content;
+}
+
+.drop-zone {
+  width: clamp(40px, 4.5vw, 50px);
+  height: clamp(40px, 4.5vw, 50px);
+  border: 1px dashed #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  border-radius: 5px;
+}
+
+.drop-zone[data-group="alkali-metal"] { background-color: #ff5f56; }
+.drop-zone[data-group="alkaline-earth"] { background-color: #ffbd2e; }
+.drop-zone[data-group="transition"] { background-color: #ff9f1a; }
+.drop-zone[data-group="post-transition"] { background-color: #27c93f; }
+.drop-zone[data-group="metalloid"] { background-color: #00b4d8; }
+.drop-zone[data-group="nonmetal"] { background-color: #1e90ff; }
+.drop-zone[data-group="noble-gas"] { background-color: #9b5de5; }
+.drop-zone[data-group="lanthanide"],
+.drop-zone[data-group="lanthanide-placeholder"] { background-color: #dd32f4; }
+.drop-zone[data-group="actinide"],
+.drop-zone[data-group="actinide-placeholder"] { background-color: #ff66c4; }
+
+.drop-zone[data-group="lanthanide-placeholder"],
+.drop-zone[data-group="actinide-placeholder"] {
+  opacity: 0.5;
+  font-size: clamp(10px, 1.5vw, 12px);
+  font-style: italic;
+}
+
+.drop-zone.correct {
+  opacity: 1;
+  border-style: solid;
+}
+
+.drop-zone.correct-hover {
+  background-color: rgba(100, 255, 218, 0.1);
+  outline: 2px dashed #64ffda;
+}
+
+.drop-zone.incorrect {
+  background-color: color-mix(in srgb, var(--indicator-color) 25%, transparent);
+  outline: 3px solid var(--indicator-color);
+  box-shadow: 0 0 8px var(--indicator-color);
+}
+
+.drop-zone.correct .element-box {
+  border: none;
+  animation: placeElement 0.5s ease-out forwards;
+}
+
+.sub-periodic-grid {
+  display: grid;
+  grid-template-columns: repeat(15, clamp(40px, 4.5vw, 50px));
+  gap: 0.5vw;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.drop-zone[data-group="spacer"],
+.drop-zone[data-group="empty"] {
+  border: none;
+  background: none;
+  pointer-events: none;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: clamp(12px, 2vw, 14px);
+}
+
+.color-box {
+  width: clamp(15px, 2vw, 20px);
+  height: clamp(15px, 2vw, 20px);
+  border: 1px solid #666;
+  border-radius: 5px;
+}
+
+.color-box.alkali-metal { background-color: #ff5f56; }
+.color-box.alkaline-earth { background-color: #ffbd2e; }
+.color-box.transition { background-color: #ff9f1a; }
+.color-box.post-transition { background-color: #27c93f; }
+.color-box.metalloid { background-color: #00b4d8; }
+.color-box.nonmetal { background-color: #1e90ff; }
+.color-box.noble-gas { background-color: #9b5de5; }
+.color-box.lanthanide { background-color: #dd32f4; }
+.color-box.actinide { background-color: #ff66c4; }
+
+.button {
+  padding: 0.5rem 1rem;
+  font-size: clamp(14px, 2.5vw, 16px);
+  cursor: pointer;
+  background-color: #233554;
+  color: #64ffda;
+  border: 1px solid darkslategrey;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  touch-action: manipulation;
+}
+
+.button:hover {
+  background-color: rgba(100, 255, 218, 0.1);
+}
+
+.reset {
+  border-color: #ff5f56;
+  color: #ff5f56;
+}
+
+.reset:hover {
+  background-color: rgba(255, 95, 86, 0.1);
+}
+
+.game-container.paused::after {
+  content: "PAUSED";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #64ffda;
+  padding: 1rem 2rem;
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.game-container.paused .element-box,
+.game-container.paused .drop-zone {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.celebration-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 25, 47, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.celebration-message {
+  background: #112240;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  animation: scaleIn 0.5s ease-out;
+}
+
+.celebration-message h2 {
+  color: #64ffda;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: 1rem;
+}
+
+.celebration-message p {
+  color: #e6f1ff;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  margin: 0.5rem 0;
+}
+
+.celebration-button {
+  background-color: #64ffda;
+  color: #0a192f;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.celebration-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes placeElement {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+/* Media Queries for Mobile Devices */
+@media (max-width: 768px) {
+  .game-container {
+    padding: 3vw;
+  }
+
+  .game-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .header-left, .header-right {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .header-right {
+    gap: 0.5rem;
+  }
+
+  .periodic-grid {
+    grid-template-columns: repeat(18, clamp(30px, 5vw, 35px));
+    gap: 0.3vw;
+  }
+
+  .drop-zone {
+    width: clamp(30px, 5vw, 35px);
+    height: clamp(30px, 5vw, 35px);
+  }
+
+  .sub-periodic-grid {
+    grid-template-columns: repeat(15, clamp(30px, 5vw, 35px));
+    gap: 0.3vw;
+  }
+
+  .element-box {
+    width: clamp(30px, 5vw, 35px);
+    height: clamp(30px, 5vw, 35px);
+    padding: 0.2rem;
+  }
+
+  .element-box .atomic-number,
+  .element-box .name,
+  .element-box .mass {
+    font-size: clamp(6px, 1.2vw, 8px);
+  }
+
+  .element-box .symbol {
+    font-size: clamp(10px, 1.8vw, 12px);
+  }
+
+  .element-box:hover .name {
+    font-size: clamp(5px, 1vw, 6px);
+  }
+
+  .legend {
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .legend-item {
+    font-size: clamp(10px, 2vw, 12px);
+  }
+
+  .color-box {
+    width: clamp(12px, 1.5vw, 15px);
+    height: clamp(12px, 1.5vw, 15px);
+  }
+
+  .button {
+    padding: 0.4rem 0.8rem;
+    font-size: clamp(12px, 2vw, 14px);
+  }
+}
+
+@media (max-width: 480px) {
+  .periodic-grid {
+    grid-template-columns: repeat(18, clamp(25px, 4.5vw, 30px));
+  }
+
+  .drop-zone {
+    width: clamp(25px, 4.5vw, 30px);
+    height: clamp(25px, 4.5vw, 30px);
+  }
+
+  .sub-periodic-grid {
+    grid-template-columns: repeat(15, clamp(25px, 4.5vw, 30px));
+  }
+
+  .element-box {
+    width: clamp(25px, 4.5vw, 30px);
+    height: clamp(25px, 4.5vw, 30px);
+  }
+
+  .element-box .atomic-number,
+  .element-box .name,
+  .element-box .mass {
+    font-size: clamp(5px, 1vw, 7px);
+  }
+
+  .element-box .symbol {
+    font-size: clamp(8px, 1.5vw, 10px);
+  }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Disable zoom -->
+    <title>Bad Chemistry</title>
+    <link rel="stylesheet" href="static/css/game.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <div class="header-left">
+                <h1 class="game-title">Bad Chemistry 🧪💥</h1>
+                <div class="stats-container">
+                    <div id="score-display" class="score-display"></div>
+                    <div id="level-display" class="level-display"></div>
+                    <div id="timer-display" class="timer-display"></div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="reset-button" class="button">Start</button>
+                <button id="pause-button" class="button">Pause</button>
+                <button id="shuffle-button" class="button">Shuffle</button>
+                <button id="periodic-table-button" class="button">Periodic Table</button>
+            </div>
+        </div>
+
+        <div id="elements-pool" class="elements-container"></div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="color-box alkali-metal"></span>Alkali Metals
+            </div>
+            <div class="legend-item">
+                <span class="color-box alkaline-earth"></span>Alkaline Earth Metals
+            </div>
+            <div class="legend-item">
+                <span class="color-box transition"></span>Transition Metals
+            </div>
+            <div class="legend-item">
+                <span class="color-box post-transition"></span>Post-Transition Metals
+            </div>
+            <div class="legend-item">
+                <span class="color-box metalloid"></span>Metalloids
+            </div>
+            <div class="legend-item">
+                <span class="color-box nonmetal"></span>Nonmetals
+            </div>
+            <div class="legend-item">
+                <span class="color-box noble-gas"></span>Noble Gases
+            </div>
+            <div class="legend-item">
+                <span class="color-box lanthanide"></span>Lanthanides
+            </div>
+            <div class="legend-item">
+                <span class="color-box actinide"></span>Actinides
+            </div>
+        </div>
+
+        <div class="periodic-table-container">
+            <div id="periodic-grid" class="periodic-grid"></div>
+        </div>
+    </div>
+    <script src='https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js'></script>
+    <script src="static/js/game2.js"></script>
+</body>
+
+</html>
