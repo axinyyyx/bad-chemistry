@@ -280,15 +280,15 @@ function calculateDistance(elementNumber, dropZoneNumber) {
   return (periodDiff + groupDiff) / maxPossibleDiff;
 }
 
+function lerp(start, end, amount) {
+  return start + (end - start) * amount;
+}
+
 function calculateColor(distance) {
   const r = Math.round(lerp(100, 255, distance));
   const g = Math.round(lerp(255, 40, distance));
   const b = Math.round(lerp(218, 40, distance));
   return `rgb(${r}, ${g}, ${b})`;
-}
-
-function lerp(start, end, amount) {
-  return start + (end - start) * amount;
 }
 
 let touchElement = null;
@@ -308,6 +308,7 @@ function handleTouchStart(e) {
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
     touchElement.style.zIndex = "1000";
+    touchElement.style.transform = "scale(1.2)"; // Slightly enlarge for better touch feedback
   }
 }
 
@@ -319,6 +320,7 @@ function handleTouchMove(e) {
   touchElement.style.left = `${touch.clientX - touchElement.offsetWidth / 2}px`;
   touchElement.style.top = `${touch.clientY - touchElement.offsetHeight / 2}px`;
 
+  // Improve drop zone detection for smaller cells
   const dropZone = document.elementFromPoint(touch.clientX, touch.clientY);
   document.querySelectorAll(".drop-zone").forEach((zone) => {
     zone.classList.remove("correct-hover", "incorrect");
@@ -345,6 +347,7 @@ function handleTouchEnd(e) {
   touchElement.style.left = "";
   touchElement.style.top = "";
   touchElement.style.zIndex = "";
+  touchElement.style.transform = "";
 
   const touch = e.changedTouches[0];
   const dropZone = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -640,7 +643,6 @@ function handleStartReset() {
       currentLevel = 1;
       isGamePaused = false;
       isTimerExpired = false;
-      isGameComplete = false;
       isGameStarted = false;
       timeRemaining = TIMER_SECONDS;
 
